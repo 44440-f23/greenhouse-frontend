@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const chart = new Chart(document.getElementById("chart"), {
         type: 'line',
         data: {
-            labels: [],
+            labels: [], // X-axis labels(time)
             datasets: [{
                 label: 'Temperature',
-                data: [],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                data: [], //Y-axis data (tempature values)
+                borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                borderWidth: 1 //Line width
             }]
         },
         // options: {
@@ -24,9 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
         //         }
         //     }
         // }
-    });
-
-    // a helper function that gets the current time for us in a nice format for our x values
+    })
+    
     function getCurrentTime() {
         const now = new Date()
         const hours = now.getHours().toString().padStart(2, '0')
@@ -41,10 +40,12 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Socket connection to server successful.")
     })
 
+    //Disconecting
     socket.on("disconnect", (msg) => {
         console.log("Socket disconnected, reason: " + msg)
     })
 
+    //Connection error
     socket.on("connect_error", (msg) => {
         console.log('Error while connecting socket to server, reason: ' + msg)
     })
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // add the temperature value to the list of Ys
         chart.data.datasets[0].data.push(data.temperature)
 
-        // keeps our chart at 10 x y pairs
+        //Limit the number of data points displayed to 10
         if (chart.data.labels.length > 10) {
             chart.data.labels.shift()
             chart.data.datasets[0].data.shift()
