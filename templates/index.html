@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> {{ title }} </title>
+
+    <!-- imports for socket io and chart.js -->
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <!-- import for our app.js file, its a flask thing idrk -->
     <script type="text/javascript" src="{{ url_for('static', filename = 'app.js') }}"></script>
+
+    <!-- our line chart -->
     <canvas id="chart"></canvas>
 
+    <!-- old elements that were showing sensor values -->
     <h1 id="temperature"></h1>
     <h1 id="humidity"></h1>
-
 </body>
 </html>
