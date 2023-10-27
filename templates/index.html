@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> {{ title }} </title> <!-- Set the page title dynamically -->
-    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script><!-- Include the Socket.IO library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include the Chart.js library for charts -->
+    <title> {{ title }} </title>
+
+    <!-- imports for socket io and chart.js -->
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'app.js') }}"></script> <!-- Include a JavaScript file named 'app.js' from the 'static' directory -->
-    <canvas id="chart"></canvas> <!-- Create a canvas element for the chart -->
+    <!-- import for our app.js file, its a flask thing idrk -->
+    <script type="text/javascript" src="{{ url_for('static', filename = 'app.js') }}"></script>
 
-    <h1 id="temperature"></h1><!-- Display temperature data -->
-    <h1 id="humidity"></h1><!-- Display humidity data -->
+    <!-- our line chart -->
+    <canvas id="chart"></canvas>
 
+    <!-- old elements that were showing sensor values -->
+    <h1 id="temperature"></h1>
+    <h1 id="humidity"></h1>
 </body>
 </html>
