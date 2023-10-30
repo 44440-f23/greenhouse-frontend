@@ -1,0 +1,327 @@
+.desktop {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .desktop .div {
+    background-color: #ffffff;
+    width: 1440px;
+    height: 1024px;
+    position: relative;
+  }
+  
+  .desktop .title {
+    position: absolute;
+    width: 952px;
+    height: 108px;
+    top: 35px;
+    left: 244px;
+    background-image: url(./img/rectangle-1.svg);
+    background-size: 100% 100%;
+  }
+  
+  .desktop .greenhouse-settings {
+    position: relative;
+    width: 403px;
+    height: 48px;
+    top: 6px;
+    left: 275px;
+  }
+  
+  .desktop .text-wrapper {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .desktop .greenhouse {
+    position: absolute;
+    width: 487px;
+    height: 202px;
+    top: 208px;
+    left: 45px;
+  }
+  
+  .desktop .overlap-group {
+    position: relative;
+    width: 473px;
+    height: 202px;
+    background-color: #d9d9d9;
+  }
+  
+  .desktop .text-wrapper-2 {
+    position: absolute;
+    width: 321px;
+    top: 14px;
+    left: 77px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .desktop .text-wrapper-3 {
+    position: absolute;
+    width: 97px;
+    top: 59px;
+    left: 40px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .desktop .div-wrapper {
+    top: 152px;
+    left: 16px;
+    position: absolute;
+    width: 154px;
+    height: 43px;
+    background-color: #ffffff;
+  }
+  
+  .desktop .text-wrapper-4 {
+    position: absolute;
+    width: 75px;
+    top: 6px;
+    left: 41px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .desktop .overlap-group-2 {
+    top: 98px;
+    left: 16px;
+    position: absolute;
+    width: 154px;
+    height: 43px;
+    background-color: #ffffff;
+  }
+  
+  .desktop .text-wrapper-5 {
+    position: absolute;
+    width: 64px;
+    top: 6px;
+    left: 41px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .desktop .text-wrapper-6 {
+    position: absolute;
+    width: 157px;
+    top: 59px;
+    left: 298px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .desktop .overlap-group-3 {
+    top: 152px;
+    left: 304px;
+    position: absolute;
+    width: 154px;
+    height: 43px;
+    background-color: #ffffff;
+  }
+  
+  .desktop .text-wrapper-7 {
+    position: absolute;
+    width: 74px;
+    top: 6px;
+    left: 41px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .desktop .overlap {
+    top: 98px;
+    left: 304px;
+    position: absolute;
+    width: 154px;
+    height: 43px;
+    background-color: #ffffff;
+  }
+  
+  .desktop .overlap-wrapper {
+    position: absolute;
+    width: 487px;
+    height: 202px;
+    top: 208px;
+    left: 573px;
+  }
+  
+  .desktop .overlap-2 {
+    position: absolute;
+    width: 154px;
+    height: 43px;
+    top: 98px;
+    left: 16px;
+    background-image: url(./img/rectangle-4.png);
+    background-size: 100% 100%;
+  }
+  
+  .desktop .overlap-group-wrapper {
+    position: absolute;
+    width: 487px;
+    height: 202px;
+    top: 454px;
+    left: 45px;
+  }
+  
+  .desktop .greenhouse-2 {
+    position: absolute;
+    width: 487px;
+    height: 202px;
+    top: 454px;
+    left: 573px;
+  }
+  
+  .desktop .greenhouse-3 {
+    position: absolute;
+    width: 487px;
+    height: 202px;
+    top: 699px;
+    left: 45px;
+  }
+  
+  .desktop .greenhouse-4 {
+    position: absolute;
+    width: 487px;
+    height: 202px;
+    top: 699px;
+    left: 573px;
+  }
+  
+  .desktop .overlap-3 {
+    position: absolute;
+    width: 301px;
+    height: 443px;
+    top: 213px;
+    left: 1086px;
+  }
+  
+  .desktop .rectangle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    top: 4px;
+    left: 21px;
+    background-color: #d9d9d9;
+  }
+  
+  .desktop .settings-boc {
+    position: absolute;
+    width: 301px;
+    height: 443px;
+    top: 0;
+    left: 0;
+  }
+  
+  .desktop .overlap-4 {
+    position: relative;
+    width: 297px;
+    height: 443px;
+    background-color: #d9d9d9;
+  }
+  
+  .desktop .text-wrapper-8 {
+    position: absolute;
+    top: 122px;
+    left: 74px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .desktop .text-wrapper-9 {
+    position: absolute;
+    top: 46px;
+    left: 18px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .desktop .frame {
+    width: 140px;
+    height: 41px;
+    top: 45px;
+    left: 134px;
+    position: absolute;
+    background-color: #ffffff;
+  }
+  
+  .desktop .text-wrapper-10 {
+    position: absolute;
+    top: -1px;
+    left: 22px;
+    font-family: "Inter-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .desktop .frame-2 {
+    width: 246px;
+    height: 213px;
+    top: 180px;
+    left: 28px;
+    position: absolute;
+    background-color: #ffffff;
+  }
+  
