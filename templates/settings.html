@@ -1,90 +1,117 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="globals.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href= {{ url_for('static', filename='settings.css') }}/>
   </head>
   <body>
     <div class="desktop">
       <div class="div">
         <div class="title">
-          <div class="greenhouse-settings"><div class="text-wrapper">GreenHouse Settings</div></div>
+          <h1>GreenHouse Settings</h1>
         </div>
-        <div class="greenhouse">
-          <div class="overlap-group">
+        <div class="greenhouse-1">
+          <div class="overlap">
             <div class="text-wrapper-2">Green House 1</div>
             <div class="text-wrapper-3">Temp</div>
-            <div class="div-wrapper"><div class="text-wrapper-4">Max</div></div>
-            <div class="overlap-group-2"><div class="text-wrapper-5">Min</div></div>
-            <div class="text-wrapper-6">Humidity</div>
-            <div class="overlap-group-3"><div class="text-wrapper-7">Max</div></div>
-            <div class="overlap"><div class="text-wrapper-5">Min</div></div>
-          </div>
-        </div>
-        <div class="overlap-wrapper">
-          <div class="overlap-group">
-            <div class="text-wrapper-2">Green House 2</div>
-            <div class="text-wrapper-3">Temp</div>
-            <div class="div-wrapper"><div class="text-wrapper-4">Max</div></div>
-            <div class="overlap-2"><div class="text-wrapper-5">Min</div></div>
-            <div class="text-wrapper-6">Humidity</div>
-            <div class="overlap-group-3"><div class="text-wrapper-7">Max</div></div>
-            <div class="overlap"><div class="text-wrapper-5">Min</div></div>
-          </div>
-        </div>
-        <div class="overlap-group-wrapper">
-          <div class="overlap-group">
-            <div class="text-wrapper-2">Green House 3</div>
-            <div class="text-wrapper-3">Temp</div>
-            <div class="div-wrapper"><div class="text-wrapper-4">Max</div></div>
-            <div class="overlap-group-2"><div class="text-wrapper-5">Min</div></div>
-            <div class="text-wrapper-6">Humidity</div>
-            <div class="overlap-group-3"><div class="text-wrapper-7">Max</div></div>
-            <div class="overlap"><div class="text-wrapper-5">Min</div></div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box">
+              <input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
           </div>
         </div>
         <div class="greenhouse-2">
-          <div class="overlap-group">
-            <div class="text-wrapper-2">Green House 4</div>
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 2</div>
             <div class="text-wrapper-3">Temp</div>
-            <div class="div-wrapper"><div class="text-wrapper-4">Max</div></div>
-            <div class="overlap-group-2"><div class="text-wrapper-5">Min</div></div>
-            <div class="text-wrapper-6">Humidity</div>
-            <div class="overlap-group-3"><div class="text-wrapper-7">Max</div></div>
-            <div class="overlap"><div class="text-wrapper-5">Min</div></div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
           </div>
         </div>
         <div class="greenhouse-3">
-          <div class="overlap-group">
-            <div class="text-wrapper-2">Green House 5</div>
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 3</div>
             <div class="text-wrapper-3">Temp</div>
-            <div class="div-wrapper"><div class="text-wrapper-4">Max</div></div>
-            <div class="overlap-group-2"><div class="text-wrapper-5">Min</div></div>
-            <div class="text-wrapper-6">Humidity</div>
-            <div class="overlap-group-3"><div class="text-wrapper-7">Max</div></div>
-            <div class="overlap"><div class="text-wrapper-5">Min</div></div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
           </div>
         </div>
         <div class="greenhouse-4">
-          <div class="overlap-group">
-            <div class="text-wrapper-2">Green House 6</div>
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 4</div>
             <div class="text-wrapper-3">Temp</div>
-            <div class="div-wrapper"><div class="text-wrapper-4">Max</div></div>
-            <div class="overlap-group-2"><div class="text-wrapper-5">Min</div></div>
-            <div class="text-wrapper-6">Humidity</div>
-            <div class="overlap-group-3"><div class="text-wrapper-7">Max</div></div>
-            <div class="overlap"><div class="text-wrapper-5">Min</div></div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
           </div>
         </div>
-        <div class="overlap-3">
-          <div class="rectangle"></div>
-          <div class="settings-boc">
-            <div class="overlap-4">
-              <div class="text-wrapper-8">Tick rate?</div>
-              <div class="text-wrapper-9">F°/ C°</div>
-              <div class="frame"><div class="text-wrapper-10">toggle</div></div>
-              <div class="frame-2"></div>
+        <div class="greenhouse-5">
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 5</div>
+            <div class="text-wrapper-3">Temp</div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
             </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
+          </div>
+        </div>
+        <div class="greenhouse-6">
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 6</div>
+            <div class="text-wrapper-3">Temp</div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min" />
+          </div>
+        </div>
+        <div class="settings-boc">
+          <div class="overlap-2">
+            <div class="text-wrapper-5">Tick rate?</div>
+            <div class="text-wrapper-6">F°/ C°</div>
+            <div class="frame"><div class="text-wrapper-7">toggle</div></div>
+            <div class="frame-2"></div>
           </div>
         </div>
       </div>
