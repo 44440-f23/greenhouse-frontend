@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2.1em;
+}
+
+.greenhouse {
+    width: 280px;
+    height: 280px;
+    background-image: url("house.svg");
+    background-size: cover; 
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.greenhouse div {
+    position: absolute;
+    font-style: bold;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.greenhouse div div {
+    margin-left: 35px;
+}
+
+.id {
+    font-size: 1.5em;
+    font-weight: bold;
+    top: 17%;
+    left: 43%;
+}
+
+.temp-container {
+    top: 40%;
+    left: 20%;
+}
+
+.humidity-container { 
+    top: 40%; 
+    left: 50%; 
+}
+
+.lux-container { 
+    top: 70%; 
+    left: 20%; 
+}
+
+.soil-temp-container { 
+    top: 55%; 
+    left: 20%; 
+}
+
+.soil-moisture-container { 
+    top: 55%; 
+    left: 50%; 
+}
