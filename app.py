@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO
-import serial, json
+import serial, json, time, random
 
 # init our Flask app and SocketIO
 app = Flask(__name__)
@@ -29,6 +29,40 @@ def read_serial():
             parsed = json.loads(data) #this might cause a problem in the future
             socketio.emit("serial", parsed)
 
+# randomly generate info from random greenhouses
+def simulate_info():
+    while True:
+        gh_ids = list(set([random.randint(1,6) for _ in range(random.randint(1,6))]))
+
+        for id in gh_ids:
+            temp = random.randint(18, 23)
+            humidity = random.randint(50, 80)   
+            soilT = random.randint(20, 24)    
+            soilM = random.randint(30, 60) 
+            lightS = random.randint(1, 6000) 
+
+            data = json.dumps({
+                "id": id,
+                "temp": temp,
+                "humidity": humidity,
+                "soilT": soilT,
+                "soilM": soilM,
+                "lightS": lightS
+            })
+
+            socketio.emit("serial", data)
+
+        time.sleep(2)
+
+# do we have something plugged in or not
+def available_serial_connection(port):
+    try:
+        ser = serial.Serial(port)
+        ser.close()
+        return True
+    except serial.serialutil.SerialException:
+        return False
+    
 # root
 @app.route('/')
 def index():
@@ -44,9 +78,12 @@ def chart():
 def connect():
     print("\nSocket connection to client successful.\n")
 
-    # must run the serial reading in the background for it to work
-    #to aviod blocking the main server
-    socketio.start_background_task(read_serial)
+    if available_serial_connection("COM5"):
+        # must run the serial reading in the background for it to work
+        socketio.start_background_task(read_serial)
+    else:
+        # pretend to receive json info
+        socketio.start_background_task(simulate_info)
 
 #Event handler for a client disconnecting from the socket
 @socketio.on("disconnect")

@@ -1,39 +1,16 @@
 // only runs our js code after the page has loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // our greenhouse elements
+    let gh1 = document.getElementById("1")
+    let gh2 = document.getElementById("2")
+    let gh3 = document.getElementById("3")
+    let gh4 = document.getElementById("4")
+    let gh5 = document.getElementById("5")
+    let gh6 = document.getElementById("6")
+
     // create our socket 
     // https://socket.io/
     const socket = io.connect()
-
-    // our nice line chart
-    // https://www.chartjs.org/
-    const chart = new Chart(document.getElementById("chart"), {
-        type: 'line',
-        data: {
-            labels: [], // X-axis labels(time)
-            datasets: [{
-                label: 'Temperature',
-                data: [], //Y-axis data (tempature values)
-                borderColor: 'rgba(75, 192, 192, 1)', // Line color
-                borderWidth: 1 //Line width
-            }]
-        },
-        // options: {
-        //     scales: {
-        //         y: {
-        //             min: 0
-        //         }
-        //     }
-        // }
-    })
-    
-    function getCurrentTime() {
-        const now = new Date()
-        const hours = now.getHours().toString().padStart(2, '0')
-        const minutes = now.getMinutes().toString().padStart(2, '0')
-        const seconds = now.getSeconds().toString().padStart(2, '0')
-      
-        return `${hours}:${minutes}:${seconds}`
-    }
 
     // event listeners that come with socket io 
     socket.on("connect", () => {
@@ -52,23 +29,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // our custom event that is emitted from out app.py
     socket.on("serial", (data) => {
-        // add the current time to the list of X labels
-        chart.data.labels.push(getCurrentTime())
+        data = JSON.parse(data)
 
-        // add the temperature value to the list of Ys
-        chart.data.datasets[0].data.push(data.temperature)
-
-        //Limit the number of data points displayed to 10
-        if (chart.data.labels.length > 10) {
-            chart.data.labels.shift()
-            chart.data.datasets[0].data.shift()
+        // check the data id, and add information as necessary
+        if (data.id == 1) {
+            gh1.querySelector(".temp").innerText = data.temp
+            gh1.querySelector(".humidity").innerText = data.humidity
+            gh1.querySelector(".soil-temp").innerText = data.soilT
+            gh1.querySelector(".soil-moisture").innerText = data.soilM
+            gh1.querySelector(".lux").innerText = data.lightS
         }
-
-        // show changes
-        chart.update()
-
-        // console.log("Data received from server: " + JSON.stringify(data))
-        // document.getElementById('temperature').innerText = `Temperature from ESP-32 is ${data.temperature}`
-        // document.getElementById('humidity').innerText = `Humidity from ESP-32 is ${data.humidity}`
+        else if (data.id == 2) {
+            gh2.querySelector(".temp").innerText = data.temp
+            gh2.querySelector(".humidity").innerText = data.humidity
+            gh2.querySelector(".soil-temp").innerText = data.soilT
+            gh2.querySelector(".soil-moisture").innerText = data.soilM
+            gh2.querySelector(".lux").innerText = data.lightS
+        }
+        else if (data.id == 3) {
+            gh3.querySelector(".temp").innerText = data.temp
+            gh3.querySelector(".humidity").innerText = data.humidity
+            gh3.querySelector(".soil-temp").innerText = data.soilT
+            gh3.querySelector(".soil-moisture").innerText = data.soilM
+            gh3.querySelector(".lux").innerText = data.lightS
+        }
+        else if (data.id == 4) {
+            gh4.querySelector(".temp").innerText = data.temp
+            gh4.querySelector(".humidity").innerText = data.humidity
+            gh4.querySelector(".soil-temp").innerText = data.soilT
+            gh4.querySelector(".soil-moisture").innerText = data.soilM
+            gh4.querySelector(".lux").innerText = data.lightS
+        }
+        else if (data.id == 5) {
+            gh5.querySelector(".temp").innerText = data.temp
+            gh5.querySelector(".humidity").innerText = data.humidity
+            gh5.querySelector(".soil-temp").innerText = data.soilT
+            gh5.querySelector(".soil-moisture").innerText = data.soilM
+            gh5.querySelector(".lux").innerText = data.lightS
+        }
+        else if (data.id == 6) {
+            gh6.querySelector(".temp").innerText = data.temp
+            gh6.querySelector(".humidity").innerText = data.humidity
+            gh6.querySelector(".soil-temp").innerText = data.soilT
+            gh6.querySelector(".soil-moisture").innerText = data.soilM
+            gh6.querySelector(".lux").innerText = data.lightS
+        }
     })
 })
