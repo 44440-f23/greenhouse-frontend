@@ -1,10 +1,19 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO
 import serial, json, time, random
+import db
 
 # init our Flask app and SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
+
+connection = db.create_connection("../../../Desktop/ghconfs.db")
+
+if connection:
+    print("We are connected")
+    print(db.select_current_config(connection))
+
+    # socketio.emit("config", )
 
 port = "/dev/tty.usbmodem2101"
 
