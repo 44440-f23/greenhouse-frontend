@@ -10,12 +10,24 @@
           <h1>GreenHouse Settings</h1>
         </div>
         <header>
-          <nav>
-              <ul>
-                  <li><a href="index.html">Index</a></li> <!-- Link to page1.html -->
-                  <li><a href="settings.html">Settings</a></li> <!-- Link to the current page -->
-              </ul>
-          </nav>
+          <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">Navbar</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Status-at-a-Glance</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('settings') }}">Settings</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
       </header>
         <div class="greenhouse-1">
           <div class="overlap">
@@ -127,5 +139,73 @@
         </div>
       </div>
     </div>
+    <script>
+      /*const numberOfGreenhouses = 6; // Define the number of greenhouses
+
+      function initializeGreenhouse(greenhouseId) {
+        // Load data from localStorage
+        const storedData = JSON.parse(localStorage.getItem(`greenhouse-${greenhouseId}`)) || {};
+
+      // Function to handle validation
+      function saveDataToLocalStorage() {
+        const tempMaxInput = document.getElementById(`tempMax-${greenhouseId}`);
+        const tempMinInput = document.getElementById(`tempMin-${greenhouseId}`);
+        const humidityMaxInput = document.getElementById(`humidityMax-${greenhouseId}`);
+        const humidityMinInput = document.getElementById(`humidityMin-${greenhouseId}`);
+        const toggle = document.getElementById(`toggle-${greenhouseId}`);
+
+        const tempMaxValue = parseFloat(tempMaxInput.value);
+        const tempMinValue = parseFloat(tempMinInput.value);
+        const humidityMaxValue = parseFloat(humidityMaxInput.value);
+        const humidityMinValue = parseFloat(humidityMinInput.value);
+
+        if (!isNaN(tempMaxValue) && !isNaN(tempMinValue) && !isNaN(humidityMaxValue) && !isNaN(humidityMinValue)) {
+            if (tempMaxValue >= tempMinValue && humidityMaxValue >= humidityMinValue) {
+                const data = {
+                    tempMax: tempMaxValue,
+                    tempMin: tempMinValue,
+                    humidityMax: humidityMaxValue,
+                    humidityMin: humidityMinValue,
+                    toggleState: toggle.checked,
+                };
+                localStorage.setItem(`greenhouse-${greenhouseId}`, JSON.stringify(data));
+            } else {
+                alert("Invalid temperature/humidity ranges");
+            }
+          } else {
+              alert("Please enter valid numbers for temperature and humidity");
+          }
+        }
+
+      // Populate input fields with stored data
+      document.getElementById(`tempMax-${greenhouseId}`).value = storedData.tempMax || '';
+      document.getElementById(`tempMin-${greenhouseId}`).value = storedData.tempMin || '';
+      document.getElementById(`humidityMax-${greenhouseId}`).value = storedData.humidityMax || '';
+      document.getElementById(`humidityMin-${greenhouseId}`).value = storedData.humidityMin || '';
+
+      const toggle = document.getElementById(`toggle-${greenhouseId}`);
+      toggle.checked = storedData.toggleState || false;
+
+      // Save data to localStorage on toggle change
+      toggle.addEventListener('change', saveDataToLocalStorage);
+
+      // Save data to localStorage when the input fields change
+      const inputFields = [
+          document.getElementById(`tempMax-${greenhouseId}`),
+          document.getElementById(`tempMin-${greenhouseId}`),
+          document.getElementById(`humidityMax-${greenhouseId}`),
+          document.getElementById(`humidityMin-${greenhouseId}`)
+      ];
+
+      inputFields.forEach(input => {
+          input.addEventListener('change', saveDataToLocalStorage);
+      });
+    }
+
+      // Initialize data persistence for each greenhouse
+    for (let i = 1; i <= numberOfGreenhouses; i++) {
+      initializeGreenhouse(i);
+    }*/
+    </script>
   </body>
 </html>

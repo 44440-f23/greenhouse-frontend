@@ -14,14 +14,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Index</a></li> <!-- Link to the current page -->
-                <li><a href="settings.html">Settings</a></li> <!-- Link to page2.html -->
-            </ul>
-        </nav>
-    </header>
     <!-- import for our app.js file, its a flask thing idrk -->
     <script type="text/javascript" src="{{ url_for('static', filename = 'app.js') }}"></script>
 
@@ -37,16 +29,13 @@
                 <a class="nav-link active" aria-current="page" href="/">Status-at-a-Glance</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/other">Other as Slash</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('other') }}">Other as url_for</a>
+                <a class="nav-link" href="{{ url_for('settings') }}">Settings</a>
               </li>
             </ul>
           </div>
         </div>
     </nav>
-
+  
     <!-- <canvas id="chart"></canvas> -->
     <div class="container">
         <div class="row">
