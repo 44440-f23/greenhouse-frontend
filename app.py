@@ -68,14 +68,9 @@ def available_serial_connection(port):
 def index():
     return render_template('index.html', title="Flaskaroo")
 
-@app.route('/settings')
-def settings():
-    return render_template('settings.html')#possible sending of the mins and maxs later
-
-# example of what a page route could be
-@app.route('/chart')
-def chart():
-    return render_template('chart.html')
+@app.route('/other')
+def other():
+    return render_template('other.html')
 
 # when the client socket connects
 @socketio.on("connect")
