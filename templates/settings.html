@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href= {{ url_for('static', filename='settings.css') }}/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='settings.css') }}"/>
   </head>
   <body>
     <div class="desktop">
@@ -118,7 +118,10 @@
           <div class="overlap-2">
             <div class="text-wrapper-5">Tick rate?</div>
             <div class="text-wrapper-6">F°/ C°</div>
-            <div class="frame"><div class="text-wrapper-7">toggle</div></div>
+            <div class="frame"><label>
+              <input type="checkbox">
+              Toggle
+             </label></div>
             <div class="frame-2"></div>
           </div>
         </div>
