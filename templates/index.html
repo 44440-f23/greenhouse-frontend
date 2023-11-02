@@ -17,6 +17,28 @@
     <!-- import for our app.js file, its a flask thing idrk -->
     <script type="text/javascript" src="{{ url_for('static', filename = 'app.js') }}"></script>
 
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Status-at-a-Glance</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/other">Other as Slash</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('other') }}">Other as url_for</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
     <!-- <canvas id="chart"></canvas> -->
     <div class="container">
         <div class="row">
