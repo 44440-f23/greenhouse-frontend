@@ -39,6 +39,11 @@ def index():
 def chart():
     return render_template('chart.html')
 
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')#possible sending of the mins and maxs later
+
+
 # when the client socket connects
 @socketio.on("connect")
 def connect():
