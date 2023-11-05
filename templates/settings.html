@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='settings.css') }}"/>
+  </head>
+  <body>
+    <div class="desktop">
+      <div class="div">
+        <div class="title">
+          <h1>GreenHouse Settings</h1>
+        </div>
+        <header>
+          <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">Navbar</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Status</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('chart') }}">Chart</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('settings') }}">Settings</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+      </header>
+        <div class="greenhouse-1">
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 1</div>
+            <div class="text-wrapper-3">Temp</div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box">
+              <input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
+          </div>
+        </div>
+        <div class="greenhouse-2">
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 2</div>
+            <div class="text-wrapper-3">Temp</div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
+          </div>
+        </div>
+        <div class="greenhouse-3">
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 3</div>
+            <div class="text-wrapper-3">Temp</div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
+          </div>
+        </div>
+        <div class="greenhouse-4">
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 4</div>
+            <div class="text-wrapper-3">Temp</div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
+          </div>
+        </div>
+        <div class="greenhouse-5">
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 5</div>
+            <div class="text-wrapper-3">Temp</div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min"/>
+          </div>
+        </div>
+        <div class="greenhouse-6">
+          <div class="overlap">
+            <div class="text-wrapper-2">Green House 6</div>
+            <div class="text-wrapper-3">Temp</div>
+            <div class="temp-max-box">
+              <div class="overlap-group">
+                <div class="rectangle"></div>
+                <input class="max" type="number" placeholder="max"/>
+              </div>
+            </div>
+            <div class="temp-min-box"><input class="min" type="number" placeholder="min"/></div>
+            <div class="text-wrapper-4">Humidity</div>
+            <input class="max-wrapper" type="number" placeholder="max"/>
+            <input class="min-wrapper" type="number" placeholder="min" />
+          </div>
+        </div>
+        <div class="settings-boc">
+          <div class="overlap-2">
+            <div class="text-wrapper-5">Tick rate?</div>
+            <div class="text-wrapper-6">F°/ C°</div>
+            <div class="frame"><label>
+              <input type="checkbox">
+              Toggle
+             </label></div>
+            <div class="frame-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      /*const numberOfGreenhouses = 6; // Define the number of greenhouses
+
+      function initializeGreenhouse(greenhouseId) {
+        // Load data from localStorage
+        const storedData = JSON.parse(localStorage.getItem(`greenhouse-${greenhouseId}`)) || {};
+
+      // Function to handle validation
+      function saveDataToLocalStorage() {
+        const tempMaxInput = document.getElementById(`tempMax-${greenhouseId}`);
+        const tempMinInput = document.getElementById(`tempMin-${greenhouseId}`);
+        const humidityMaxInput = document.getElementById(`humidityMax-${greenhouseId}`);
+        const humidityMinInput = document.getElementById(`humidityMin-${greenhouseId}`);
+        const toggle = document.getElementById(`toggle-${greenhouseId}`);
+
+        const tempMaxValue = parseFloat(tempMaxInput.value);
+        const tempMinValue = parseFloat(tempMinInput.value);
+        const humidityMaxValue = parseFloat(humidityMaxInput.value);
+        const humidityMinValue = parseFloat(humidityMinInput.value);
+
+        if (!isNaN(tempMaxValue) && !isNaN(tempMinValue) && !isNaN(humidityMaxValue) && !isNaN(humidityMinValue)) {
+            if (tempMaxValue >= tempMinValue && humidityMaxValue >= humidityMinValue) {
+                const data = {
+                    tempMax: tempMaxValue,
+                    tempMin: tempMinValue,
+                    humidityMax: humidityMaxValue,
+                    humidityMin: humidityMinValue,
+                    toggleState: toggle.checked,
+                };
+                localStorage.setItem(`greenhouse-${greenhouseId}`, JSON.stringify(data));
+            } else {
+                alert("Invalid temperature/humidity ranges");
+            }
+          } else {
+              alert("Please enter valid numbers for temperature and humidity");
+          }
+        }
+
+      // Populate input fields with stored data
+      document.getElementById(`tempMax-${greenhouseId}`).value = storedData.tempMax || '';
+      document.getElementById(`tempMin-${greenhouseId}`).value = storedData.tempMin || '';
+      document.getElementById(`humidityMax-${greenhouseId}`).value = storedData.humidityMax || '';
+      document.getElementById(`humidityMin-${greenhouseId}`).value = storedData.humidityMin || '';
+
+      const toggle = document.getElementById(`toggle-${greenhouseId}`);
+      toggle.checked = storedData.toggleState || false;
+
+      // Save data to localStorage on toggle change
+      toggle.addEventListener('change', saveDataToLocalStorage);
+
+      // Save data to localStorage when the input fields change
+      const inputFields = [
+          document.getElementById(`tempMax-${greenhouseId}`),
+          document.getElementById(`tempMin-${greenhouseId}`),
+          document.getElementById(`humidityMax-${greenhouseId}`),
+          document.getElementById(`humidityMin-${greenhouseId}`)
+      ];
+
+      inputFields.forEach(input => {
+          input.addEventListener('change', saveDataToLocalStorage);
+      });
+    }
+
+      // Initialize data persistence for each greenhouse
+    for (let i = 1; i <= numberOfGreenhouses; i++) {
+      initializeGreenhouse(i);
+    }*/
+    </script>
+  </body>
+</html>
