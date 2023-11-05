@@ -6,28 +6,22 @@ import serial, json, time, random
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
 
+port = "/dev/tty.usbmodem2101"
+
 # helper function that reads the COM5 serial port 
 def read_serial():
     #define the serial port and baud rate
-    serial_port = serial.Serial('COM5', baudrate=9600)
+    serial_port = serial.Serial(port, baudrate=9600, timeout=2)
+
     while True:
         # serial is wacky, sometimes it doesn't know how to decode() so this is just how it is for now
-        try:
-            #read a lie of data from the serial port and decode it as a string
-            data = serial_port.readline().decode().strip()
+        line = serial_port.readline().decode().strip()
 
-            #parse that data as JSON
-            parsed = json.loads(data)
-            print(parsed)
-
-            #Emit the parsed data to connected clients using Socket.IO
-            socketio.emit("serial", parsed)
-
-        except:
-            #Handle exeptions if JSON parsing fails
-            data = serial_port.readline().strip()
-            parsed = json.loads(data) #this might cause a problem in the future
-            socketio.emit("serial", parsed)
+        if len(line) != 0 and line[0] == "{":
+            try:
+                socketio.emit("serial", line)
+            except:
+                print("failed to parse")
 
 # randomly generate info from random greenhouses
 def simulate_info():
@@ -72,12 +66,17 @@ def index():
 def chart():
     return render_template('chart.html')
 
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')#possible sending of the mins and maxs later
+
+
 # when the client socket connects
 @socketio.on("connect")
 def connect():
     print("\nSocket connection to client successful.\n")
 
-    if available_serial_connection("COM5"):
+    if available_serial_connection(port):
         # must run the serial reading in the background for it to work
         socketio.start_background_task(read_serial)
     else:
