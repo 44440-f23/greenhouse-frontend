@@ -62,9 +62,9 @@ def available_serial_connection(port):
 def index():
     return render_template('index.html', title="Flaskaroo")
 
-@app.route('/other')
-def other():
-    return render_template('other.html')
+@app.route('/chart')
+def chart():
+    return render_template('chart.html')
 
 @app.route('/settings')
 def settings():
