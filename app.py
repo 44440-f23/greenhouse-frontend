@@ -9,7 +9,7 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 
 port = "/dev/tty.usbmodem2101"
 
-# helper function that reads the COM5 serial port 
+# helper function that reads the basestations serial port 
 def read_serial():
     #define the serial port and baud rate
     serial_port = serial.Serial(port, baudrate=9600)
