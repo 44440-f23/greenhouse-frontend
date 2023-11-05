@@ -7,30 +7,26 @@ import db
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
 
-connection = db.create_connection("../../../Desktop/ghconfs.db")
-
-if connection:
-    print("We are connected")
-    print(db.select_current_config(connection))
-
-    # socketio.emit("config", )
-
 port = "/dev/tty.usbmodem2101"
 
 # helper function that reads the COM5 serial port 
 def read_serial():
     #define the serial port and baud rate
-    serial_port = serial.Serial(port, baudrate=9600, timeout=2)
+    serial_port = serial.Serial(port, baudrate=9600)
 
     while True:
-        # serial is wacky, sometimes it doesn't know how to decode() so this is just how it is for now
-        line = serial_port.readline().decode().strip()
-
-        if len(line) != 0 and line[0] == "{":
-            try:
+        # reading constantly creates inconsistencies. This seems fairly robust
+        # might run into issues with messages piling up? 
+        time.sleep(2) 
+        # try to grab the line and emit it
+        try:
+            line = serial_port.readline().decode().strip()
+            serial_port.flush()
+            print(line)
+            if len(line) != 0 and line[0] == "{":
                 socketio.emit("serial", line)
-            except:
-                print("failed to parse")
+        except:
+            print("failed to read line")
 
 # randomly generate info from random greenhouses
 def simulate_info():
@@ -84,6 +80,10 @@ def settings():
 @socketio.on("connect")
 def connect():
     print("\nSocket connection to client successful.\n")
+
+    # grabs current settings config from db
+    current_confs = db.select_current_configs()
+    socketio.emit("config", current_confs)
 
     if available_serial_connection(port):
         # must run the serial reading in the background for it to work

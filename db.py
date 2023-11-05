@@ -1,6 +1,6 @@
 import sqlite3
 from sqlite3 import Error
-from datetime import datetime
+import json
 
 def create_connection(db_file):
     conn = None
@@ -11,48 +11,84 @@ def create_connection(db_file):
 
     return conn
 
-def select_current_config(conn):
-    current_utc = datetime.utcnow();
-    cur = conn.cursor()
-    # insert_data = f"INSERT INTO gh_configs values(1, 100, 100, 10, 10, '{current_utc}');"
-    # cur.execute(insert_data)
-    cur.execute("SELECT * FROM gh_configs ORDER BY timestamp DESC LIMIT 1;")
+# update existing configs based on gather info from settings page
+# requires a complete config file even if only some values are changed
+def update_existing_configs(config):
+    # will need changed to the location of the DB on the linux machine
+    conn = create_connection("../../../Desktop/gh_confs.db")
 
-    rows = cur.fetchall()
+    # list of configs generated from the passed in config
+    configs = [config["1"], config["2"], config["3"], config["4"], config["5"], config["6"]]
+    cur = conn.cursor()
+
+    gh = 1;
+    for c in configs: # loop through the configs and use the values of each to update the existing ones in the db
+        command = f"UPDATE gh_configs SET tempMax = {c['temp']['max']}, tempMin = {c['temp']['min']}, \
+              humidityMax = {c['humidity']['max']}, humidityMin = {c['humidity']['min']} \
+                WHERE gh = {str(gh)}"
+        cur.execute(command)
+        gh = gh + 1; # keep track of the greenhouse that we are on (id)
+
     conn.commit()
     conn.close()
 
-    return rows;
+# grabs current config from db and stores it in json object
+def select_current_configs():
+    # will need changed to the location of the DB on the linux machine
+    conn = create_connection("../../../Desktop/gh_confs.db")
+    cur = conn.cursor()
 
+    cur.execute("SELECT * FROM gh_configs;")
 
-    # for row in rows:
-    #     print(row)
+    rows = cur.fetchall()
 
+    to_send = {
+        "1" : {
+        "tempMax": 0,
+        "tempMin": 0,
+        "humidityMax": 0,
+        "humidityMin": 0,
+        },
+        "2" : {
+        "tempMax": 0,
+        "tempMin": 0,
+        "humidityMax": 0,
+        "humidityMin": 0,
+        },
+        "3" : {
+        "tempMax": 0,
+        "tempMin": 0,
+        "humidityMax": 0,
+        "humidityMin": 0,
+        },
+        "4" : {
+        "tempMax": 0,
+        "tempMin": 0,
+        "humidityMax": 0,
+        "humidityMin": 0,
+        },
+        "5" : {
+        "tempMax": 0,
+        "tempMin": 0,
+        "humidityMax": 0,
+        "humidityMin": 0,
+        },
+        "6" : {
+        "tempMax": 0,
+        "tempMin": 0,
+        "humidityMax": 0,
+        "humidityMin": 0,
+        }
+    }
+    current_gh = 0
 
-def main():
-    database = r"test.db"
-
-    # create a database connection
-    conn = create_connection(database)
-    with conn:
-
-        print("2. Query all tasks")
-        select_current_config(conn)
-
-
-if __name__ == "__main__":
-    main()
-
-#command to create db
-#.open dbname
-
-#command to create tabl
-# CREATE TABLE your_table_name (
-# gh INT,
-# fahrenheitToggle INT,
-# tempMax INT,
-# humidityMax INT,
-# tempMin INT,
-# humidityMin INT,
-# timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-#  );
+    # loop through rows of returned info and store them in there correct spot in the json object
+    for r in rows:
+        current_gh = current_gh + 1
+        to_send[str(current_gh)]["tempMax"] = r[1]
+        to_send[str(current_gh)]["humidityMax"] = r[2]
+        to_send[str(current_gh)]["tempMin"] = r[3]
+        to_send[str(current_gh)]["humidityMin"] = r[4]
+        
+    conn.close()
+    return json.dumps(to_send);
