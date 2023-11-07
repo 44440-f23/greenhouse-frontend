@@ -29,6 +29,12 @@
             </div>
         </nav>
       </header>
+      <form action="submit.php" method="post">
+        <label for="inputField">Enter something:</label>
+        <input type="text" id="inputField" name="userInput">
+        <br><br>
+        <input type="submit" value="Submit">
+      </form>
         <div class="greenhouse-1">
           <div class="overlap">
             <div class="text-wrapper-2">Green House 1</div>
@@ -139,73 +145,6 @@
         </div>
       </div>
     </div>
-    <script>
-      /*const numberOfGreenhouses = 6; // Define the number of greenhouses
-
-      function initializeGreenhouse(greenhouseId) {
-        // Load data from localStorage
-        const storedData = JSON.parse(localStorage.getItem(`greenhouse-${greenhouseId}`)) || {};
-
-      // Function to handle validation
-      function saveDataToLocalStorage() {
-        const tempMaxInput = document.getElementById(`tempMax-${greenhouseId}`);
-        const tempMinInput = document.getElementById(`tempMin-${greenhouseId}`);
-        const humidityMaxInput = document.getElementById(`humidityMax-${greenhouseId}`);
-        const humidityMinInput = document.getElementById(`humidityMin-${greenhouseId}`);
-        const toggle = document.getElementById(`toggle-${greenhouseId}`);
-
-        const tempMaxValue = parseFloat(tempMaxInput.value);
-        const tempMinValue = parseFloat(tempMinInput.value);
-        const humidityMaxValue = parseFloat(humidityMaxInput.value);
-        const humidityMinValue = parseFloat(humidityMinInput.value);
-
-        if (!isNaN(tempMaxValue) && !isNaN(tempMinValue) && !isNaN(humidityMaxValue) && !isNaN(humidityMinValue)) {
-            if (tempMaxValue >= tempMinValue && humidityMaxValue >= humidityMinValue) {
-                const data = {
-                    tempMax: tempMaxValue,
-                    tempMin: tempMinValue,
-                    humidityMax: humidityMaxValue,
-                    humidityMin: humidityMinValue,
-                    toggleState: toggle.checked,
-                };
-                localStorage.setItem(`greenhouse-${greenhouseId}`, JSON.stringify(data));
-            } else {
-                alert("Invalid temperature/humidity ranges");
-            }
-          } else {
-              alert("Please enter valid numbers for temperature and humidity");
-          }
-        }
-
-      // Populate input fields with stored data
-      document.getElementById(`tempMax-${greenhouseId}`).value = storedData.tempMax || '';
-      document.getElementById(`tempMin-${greenhouseId}`).value = storedData.tempMin || '';
-      document.getElementById(`humidityMax-${greenhouseId}`).value = storedData.humidityMax || '';
-      document.getElementById(`humidityMin-${greenhouseId}`).value = storedData.humidityMin || '';
-
-      const toggle = document.getElementById(`toggle-${greenhouseId}`);
-      toggle.checked = storedData.toggleState || false;
-
-      // Save data to localStorage on toggle change
-      toggle.addEventListener('change', saveDataToLocalStorage);
-
-      // Save data to localStorage when the input fields change
-      const inputFields = [
-          document.getElementById(`tempMax-${greenhouseId}`),
-          document.getElementById(`tempMin-${greenhouseId}`),
-          document.getElementById(`humidityMax-${greenhouseId}`),
-          document.getElementById(`humidityMin-${greenhouseId}`)
-      ];
-
-      inputFields.forEach(input => {
-          input.addEventListener('change', saveDataToLocalStorage);
-      });
-    }
-
-      // Initialize data persistence for each greenhouse
-    for (let i = 1; i <= numberOfGreenhouses; i++) {
-      initializeGreenhouse(i);
-    }*/
-    </script>
+    
   </body>
 </html>
