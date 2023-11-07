@@ -15,7 +15,7 @@ def create_connection(db_file):
 # requires a complete config file even if only some values are changed
 def update_existing_configs(config):
     # will need changed to the location of the DB on the linux machine
-    conn = create_connection("../../../Desktop/gh_confs.db")
+    conn = create_connection("./gh_confs.db")
 
     # list of configs generated from the passed in config
     configs = [config["1"], config["2"], config["3"], config["4"], config["5"], config["6"]]
@@ -35,7 +35,7 @@ def update_existing_configs(config):
 # grabs current config from db and stores it in json object
 def select_current_configs():
     # will need changed to the location of the DB on the linux machine
-    conn = create_connection("../../../Desktop/gh_confs.db")
+    conn = create_connection("./gh_confs.db")
     cur = conn.cursor()
 
     cur.execute("SELECT * FROM gh_configs;")

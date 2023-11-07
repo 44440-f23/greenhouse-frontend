@@ -7,18 +7,22 @@ import db
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
 
+is_running = False
+
 port = "/dev/tty.usbmodem2101"
 
 # helper function that reads the basestations serial port 
 def read_serial():
     #define the serial port and baud rate
-    serial_port = serial.Serial(port, baudrate=9600)
 
     while True:
         # reading constantly creates inconsistencies. This seems fairly robust
         # might run into issues with messages piling up? 
-        time.sleep(2) 
         # try to grab the line and emit it
+
+        serial_port = serial.Serial(port, baudrate=9600)
+        serial_port.flush()
+
         try:
             line = serial_port.readline().decode().strip()
             serial_port.flush()
@@ -79,6 +83,7 @@ def settings():
 # when the client socket connects
 @socketio.on("connect")
 def connect():
+    global is_running
     print("\nSocket connection to client successful.\n")
 
     # grabs current settings config from db
@@ -87,9 +92,12 @@ def connect():
 
     if available_serial_connection(port):
         # must run the serial reading in the background for it to work
-        socketio.start_background_task(read_serial)
+        if not is_running:
+            socketio.start_background_task(read_serial)
+            is_running = True
     else:
         # pretend to receive json info
+        is_running = False
         socketio.start_background_task(simulate_info)
 
 #Event handler for a client disconnecting from the socket
