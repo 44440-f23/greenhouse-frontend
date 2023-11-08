@@ -37,7 +37,7 @@ To run SQLite in any directory on your Windows machine, you must add it to your 
 3. Under the User variables section at the top, click on the "Path" variable, then Edit
 4. From here you will want to click "New" and type the path to the SQLite files (if you followed the tutorial this should be C:\sqlite)
 
-* Here are commands to create a db on your local machine. ''
+* Here are commands to create a db on your local machine. 
 * It will be created in the directory where they are ran.
 
 ```bash

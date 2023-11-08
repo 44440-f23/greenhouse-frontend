@@ -27,9 +27,20 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Error while connecting socket to server, reason: ' + msg)
     })
 
+    // most likely wont be needed in this file, but here for an example/use later
+    socket.on("config", (recieved_configs) => {
+        recieved_configs = JSON.parse(recieved_configs)
+        console.log("These are the current configs: " + JSON.stringify(recieved_configs))
+    })
+
     // our custom event that is emitted from out app.py
     socket.on("serial", (data) => {
-        data = JSON.parse(data)
+        try{
+            data = JSON.parse(data)
+        } catch(e){
+            console.log("failed to parse: " + data + " because: " + e)
+        }
+
 
         // check the data id, and add information as necessary
         if (data.id == 1) {
