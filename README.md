@@ -27,3 +27,23 @@ pip install *package*
 ```bash
 pip freeze > requirements.txt
 ```
+
+* Here are commands to create a db on your local machine. 
+* It will be created in the directory where they are ran.
+
+```bash
+# start sqlite3
+sqlite3
+
+# command to create db
+.open dbname
+
+# command to create table
+CREATE TABLE gh_configs (
+gh INT,
+tempMax INT,
+humidityMax INT,
+tempMin INT,
+humidityMin INT
+);
+```
