@@ -8,6 +8,7 @@ app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
 
 is_running = False
+simulating = False
 
 port = "/dev/tty.usbmodem2101"
 
@@ -86,6 +87,8 @@ def settings():
 @socketio.on("connect")
 def connect():
     global is_running
+    global simulating
+    
     print("\nSocket connection to client successful.\n")
 
     # grabs current settings config from db
@@ -97,10 +100,17 @@ def connect():
         if not is_running:
             socketio.start_background_task(read_serial)
             is_running = True
+            print('\nInitial serial reading started.\n')
+        else:
+            print('\Already reading from serial, will continue to do so.\n')
     else:
-        # pretend to receive json info
-        is_running = False
-        socketio.start_background_task(simulate_info)
+        if not simulating:
+            # pretend to receive json info
+            socketio.start_background_task(simulate_info)
+            simulating = True
+            print('\nInitial simulation started.\n')
+        else:
+            print('\nAlready simulating, will continue to do so.\n')
 
 #Event handler for a client disconnecting from the socket
 @socketio.on("disconnect")

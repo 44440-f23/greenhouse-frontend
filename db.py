@@ -21,7 +21,7 @@ def update_existing_configs(config):
     configs = [config["1"], config["2"], config["3"], config["4"], config["5"], config["6"]]
     cur = conn.cursor()
 
-    gh = 1;
+    gh = 1
     for c in configs: # loop through the configs and use the values of each to update the existing ones in the db
         command = f"UPDATE gh_configs SET tempMax = {c['temp']['max']}, tempMin = {c['temp']['min']}, \
               humidityMax = {c['humidity']['max']}, humidityMin = {c['humidity']['min']} \
