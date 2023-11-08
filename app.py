@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 import serial, json, time, random
 
@@ -64,12 +64,14 @@ def index():
 
 @app.route('/chart')
 def chart():
-    return render_template('chart.html')
+    id = request.args.get('id')
+    variable = request.args.get('variable')
+
+    return render_template('chart.html', id=id, variable=variable)
 
 @app.route('/settings')
 def settings():
     return render_template('settings.html')#possible sending of the mins and maxs later
-
 
 # when the client socket connects
 @socketio.on("connect")
