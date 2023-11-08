@@ -27,3 +27,32 @@ pip install *package*
 ```bash
 pip freeze > requirements.txt
 ```
+
+## Downloading SQLite
+Follow this tutorial: https://www.sqlitetutorial.net/download-install-sqlite/
+
+To run SQLite in any directory on your Windows machine, you must add it to your PATH.
+1. Type 'environ' in the task bar and click 'Edit the system environment variables'
+2. Click "Environment Variables..." button
+3. Under the User variables section at the top, click on the "Path" variable, then Edit
+4. From here you will want to click "New" and type the path to the SQLite files (if you followed the tutorial this should be C:\sqlite)
+
+* Here are commands to create a db on your local machine. ''
+* It will be created in the directory where they are ran.
+
+```bash
+# start sqlite3
+sqlite3
+
+# command to create db
+.open gh_confs.db
+
+# command to create table
+CREATE TABLE gh_configs (
+gh INT,
+tempMax INT,
+humidityMax INT,
+tempMin INT,
+humidityMin INT
+);
+```
