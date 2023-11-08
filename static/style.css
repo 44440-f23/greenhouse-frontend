@@ -16,9 +16,9 @@
 }
 
 .greenhouse div div {
-    margin-left: 35px;
+    margin-left: 32px;
     color: black;
-    font-size: 1.5em;
+    font-size: 1.7em;
 }
 
 .id {
@@ -28,6 +28,27 @@
     left: 44%;
 }
 
+.clickable:hover {
+    border-radius: 35%;
+    border: 1px solid black;
+}
+
+.temp-container {
+    top: 47%;
+    left: 19%;
+}
+
+.humidity-container { 
+    top: 47%; 
+    left: 51%; 
+}
+
+.lux-container { 
+    top: 67%; 
+    left: 27%; 
+}
+
+/* these styling rules are for when there are 5 variables per gh on the status page
 .temp-container {
     top: 40%;
     left: 20%;
@@ -52,8 +73,4 @@
     top: 55%; 
     left: 50%; 
 }
-
-.clickable:hover {
-    border-radius: 35%;
-    border: 1px solid black;
-}
+*/

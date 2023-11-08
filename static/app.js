@@ -35,43 +35,43 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.id == 1) {
             gh1.querySelector(".temp").innerText = data.temp ?? "-"
             gh1.querySelector(".humidity").innerText = data.humidity ?? "-"
-            gh1.querySelector(".soil-temp").innerText = data.soilT ?? "-"
-            gh1.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
+            // gh1.querySelector(".soil-temp").innerText = data.soilT ?? "-"
+            // gh1.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
             gh1.querySelector(".lux").innerText = data.lightS ?? "-"
         }
         else if (data.id == 2) {
             gh2.querySelector(".temp").innerText = data.temp ?? "-"
             gh2.querySelector(".humidity").innerText = data.humidity ?? "-"
-            gh2.querySelector(".soil-temp").innerText = data.soilT ?? "-"
-            gh2.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
+            // gh2.querySelector(".soil-temp").innerText = data.soilT ?? "-"
+            // gh2.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
             gh2.querySelector(".lux").innerText = data.lightS ?? "-"
         }
         else if (data.id == 3) {
             gh3.querySelector(".temp").innerText = data.temp ?? "-"
             gh3.querySelector(".humidity").innerText = data.humidity ?? "-"
-            gh3.querySelector(".soil-temp").innerText = data.soilT ?? "-"
-            gh3.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
+            // gh3.querySelector(".soil-temp").innerText = data.soilT ?? "-"
+            // gh3.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
             gh3.querySelector(".lux").innerText = data.lightS ?? "-"
         }
         else if (data.id == 4) {
             gh4.querySelector(".temp").innerText = data.temp ?? "-"
             gh4.querySelector(".humidity").innerText = data.humidity ?? "-"
-            gh4.querySelector(".soil-temp").innerText = data.soilT ?? "-"
-            gh4.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
+            // gh4.querySelector(".soil-temp").innerText = data.soilT ?? "-"
+            // gh4.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
             gh4.querySelector(".lux").innerText = data.lightS ?? "-"
         }
         else if (data.id == 5) {
             gh5.querySelector(".temp").innerText = data.temp ?? "-"
             gh5.querySelector(".humidity").innerText = data.humidity ?? "-"
-            gh5.querySelector(".soil-temp").innerText = data.soilT ?? "-"
-            gh5.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
+            // gh5.querySelector(".soil-temp").innerText = data.soilT ?? "-"
+            // gh5.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
             gh5.querySelector(".lux").innerText = data.lightS ?? "-"
         }
         else if (data.id == 6) {
             gh6.querySelector(".temp").innerText = data.temp ?? "-"
             gh6.querySelector(".humidity").innerText = data.humidity ?? "-"
-            gh6.querySelector(".soil-temp").innerText = data.soilT ?? "-"
-            gh6.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
+            // gh6.querySelector(".soil-temp").innerText = data.soilT ?? "-"
+            // gh6.querySelector(".soil-moisture").innerText = data.soilM ?? "-"
             gh6.querySelector(".lux").innerText = data.lightS ?? "-"
         }
     })
