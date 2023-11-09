@@ -91,10 +91,6 @@ def connect():
     
     print("\nSocket connection to client successful.\n")
 
-    # grabs current settings config from db
-    current_confs = db.select_current_configs()
-    socketio.emit("config", current_confs)
-
     if available_serial_connection(port):
         # must run the serial reading in the background for it to work
         if not is_running:
