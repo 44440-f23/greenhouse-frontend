@@ -81,7 +81,7 @@ def chart():
 
 @app.route('/settings')
 def settings():
-    return render_template('settings.html')#possible sending of the mins and maxs later
+    return render_template('settings.html', configs = json.loads(db.select_current_configs()))#possible sending of the mins and maxs later
 
 @app.route('/submit_form', methods = ['POST'])
 def submit_form():

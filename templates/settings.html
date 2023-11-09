@@ -33,10 +33,10 @@
           </nav>
         </header>
         <h1>
-            Greenhouse Setting
+            {{ configs }}
         </h1>
-        <form>
-        <div id="greenhouse1">
+        <form class="greenhouse-form">
+        <div class="greenhouse" id="greenhouse1">
             <h2>
                 Greenhouse 1
             </h2>
@@ -55,7 +55,7 @@
               <input class="max" type="number" placeholder="Max" id="hum1Max"/>
             </div>
         </div>
-        <div id="greenhouse2">
+        <div class="greenhouse" id="greenhouse2">
             <h2>
                 Greenhouse 2
             </h2>
@@ -73,7 +73,7 @@
               <label for="hum2Max" class="col-form-label">Maximum Humidity</label>
               <input class="max" type="number" placeholder="Max" id="hum2Max"/>              </div>
         </div>
-        <div id="greenhouse3">
+        <div class="greenhouse" id="greenhouse3">
             <h2>
                 Greenhouse 3
             </h2>
@@ -92,7 +92,7 @@
               <input class="max" type="number" placeholder="Max" id="hum3Max"/>
             </div>
         </div>
-        <div id="greenhouse4">
+        <div class="greenhouse" id="greenhouse4">
             <h2>
                 Greenhouse 4
             </h2>
@@ -111,7 +111,7 @@
               <input class="max" type="number" placeholder="Max" id="hum4Max"/>
             </div>
         </div>
-        <div id="greenhouse5">
+        <div class="greenhouse" id="greenhouse5">
             <h2>
                 Greenhouse 5
             </h2>
@@ -130,7 +130,7 @@
               <input class="max" type="number" placeholder="Max" id="hum5Max"/>
             </div>
         </div>
-        <div id="greenhouse6">
+        <div class="greenhouse" id="greenhouse6">
             <h2>
                 Greenhouse 6
             </h2>
@@ -149,8 +149,8 @@
               <input class="max" type="number" placeholder="Max" id="hum6Max"/>
             </div>
         </div>
-        <div class="col-12">
-            <button class="btn btn-primary" type="submit" onclick="submitForm(event)">Submit changes</button>
+        <div class="submit-section">
+            <button class="submit-button" type="submit" onclick="submitForm(event)">Submit changes</button>
         </div>
         </form>
         
