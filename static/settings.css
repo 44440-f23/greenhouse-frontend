@@ -1,0 +1,12 @@
+/* Apply CSS styles to arrange greenhouses side by side */
+.greenhouse-form {
+  display: flex;
+}
+
+.greenhouse {
+  flex: 1;
+  margin: 0 10px; /* Adjust the margin as needed */
+  padding: 10px;
+  border: 1px solid #ccc; /* Optional border for each greenhouse */
+  box-sizing: border-box;
+}

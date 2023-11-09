@@ -102,6 +102,13 @@ def chart():
 @app.route('/settings')
 def settings():
     return render_template('settings.html')#possible sending of the mins and maxs later
+ #configs = json.loads(db.select_current_configs())
+@app.route('/submit_form', methods = ['POST'])
+def submit_form():
+    if request.method == 'POST':
+        data = request.get_json()
+        db.update_existing_configs(data)
+
 
 # when the client socket connects
 @socketio.on("connect")
@@ -149,10 +156,6 @@ def connect():
     })
 
     print("\nSocket connection to client successful.\n")
-
-    # grabs current settings config from db
-    current_confs = db.select_current_configs()
-    socketio.emit("config", current_confs)
 
     if available_serial_connection(port):
         # must run the serial reading in the background for it to work

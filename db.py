@@ -21,7 +21,7 @@ def update_existing_configs(config):
     try:
         # list of configs generated from the passed in config
         configs = [config["1"], config["2"], config["3"], config["4"], config["5"], config["6"]]
-        
+
         cur.execute("SELECT * from gh_configs;")
         entries = cur.fetchall()
         
@@ -53,6 +53,7 @@ def update_existing_configs(config):
 def select_current_configs():
     # will need changed to the location of the DB on the linux machine
     conn = create_connection("./gh_confs.db")
+
     cur = conn.cursor()
 
     cur.execute("SELECT * FROM gh_configs;")
@@ -97,7 +98,6 @@ def select_current_configs():
         "humidityMin": 0,
         }
     }
-    current_gh = 0
 
     # loop through rows of returned info and store them in there correct spot in the json object
     for r in rows:
@@ -106,6 +106,6 @@ def select_current_configs():
         to_send[str(current_gh)]["tempMin"] = r[2]
         to_send[str(current_gh)]["humidityMax"] = r[3]
         to_send[str(current_gh)]["humidityMin"] = r[4]
-        
+
     conn.close()
     return json.dumps(to_send)
