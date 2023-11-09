@@ -100,6 +100,7 @@ def select_current_configs():
     }
 
     # loop through rows of returned info and store them in there correct spot in the json object
+    current_gh = 0
     for r in rows:
         current_gh = current_gh + 1
         to_send[str(current_gh)]["tempMax"] = r[1]
