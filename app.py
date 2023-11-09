@@ -12,6 +12,24 @@ simulating = False
 
 port = "/dev/tty.usbmodem2101"
 
+def check_bounds(gh):
+    gh = json.loads(gh)
+    all_configs = json.loads(db.select_current_configs())
+    gh_config = all_configs[str(gh["id"])]
+
+    for key in gh_config:
+        bound = key[len(key)-3:]
+        variable = key[:len(key)-3]
+
+        if bound == "Max":
+            if gh[variable] > gh_config[key]:
+                # alert admin here
+                print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
+        elif bound == "Min":
+            if gh[variable] < gh_config[key]:
+                # alert admin here
+                print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
+
 # helper function that reads the basestations serial port 
 def read_serial():
     #define the serial port and baud rate
@@ -29,6 +47,7 @@ def read_serial():
             serial_port.flush()
             print(line)
             if len(line) != 0 and line[0] == "{":
+                check_bounds(line)                    
                 socketio.emit("serial", line)
         except:
             print("failed to read line")
@@ -54,6 +73,7 @@ def simulate_info():
                 "lightS": lightS
             })
 
+            check_bounds(data)
             socketio.emit("serial", data)
 
         time.sleep(2)
@@ -89,6 +109,45 @@ def connect():
     global is_running
     global simulating
     
+    db.update_existing_configs({
+        "1" : {
+            "tempMin": 19,
+            "tempMax": 22,
+            "humidityMin":55,
+            "humidityMax": 75,
+        },
+        "2" : {
+            "tempMin": 19,
+            "tempMax": 22,
+            "humidityMin":55,
+            "humidityMax": 75,
+        },
+        "3" : {
+            "tempMin": 19,
+            "tempMax": 22,
+            "humidityMin":55,
+            "humidityMax": 75,
+        },
+        "4" : {
+            "tempMin": 19,
+            "tempMax": 22,
+            "humidityMin":55,
+            "humidityMax": 75,
+        },
+        "5" : {
+            "tempMin": 19,
+            "tempMax": 22,
+            "humidityMin":55,
+            "humidityMax": 75,
+        },
+        "6" : {
+            "tempMin": 19,
+            "tempMax": 22,
+            "humidityMin":55,
+            "humidityMax": 75,
+        }
+    })
+
     print("\nSocket connection to client successful.\n")
 
     # grabs current settings config from db

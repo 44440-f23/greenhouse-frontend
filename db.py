@@ -16,21 +16,38 @@ def create_connection(db_file):
 def update_existing_configs(config):
     # will need changed to the location of the DB on the linux machine
     conn = create_connection("./gh_confs.db")
-
-    # list of configs generated from the passed in config
-    configs = [config["1"], config["2"], config["3"], config["4"], config["5"], config["6"]]
     cur = conn.cursor()
 
-    gh = 1
-    for c in configs: # loop through the configs and use the values of each to update the existing ones in the db
-        command = f"UPDATE gh_configs SET tempMax = {c['temp']['max']}, tempMin = {c['temp']['min']}, \
-              humidityMax = {c['humidity']['max']}, humidityMin = {c['humidity']['min']} \
-                WHERE gh = {str(gh)}"
-        cur.execute(command)
-        gh = gh + 1; # keep track of the greenhouse that we are on (id)
+    try:
+        # list of configs generated from the passed in config
+        configs = [config["1"], config["2"], config["3"], config["4"], config["5"], config["6"]]
+        
+        cur.execute("SELECT * from gh_configs;")
+        entries = cur.fetchall()
+        
+        gh = 1
+        for c in configs: # loop through the configs and use the values of each to update the existing ones in the db
+            if len(entries) == 0:
+                print("We are inserting")
+                insert = f"INSERT INTO gh_configs (gh, tempMax, tempMin, humidityMax, humidityMin) \
+                VALUES ('{str(gh)}', {c['tempMax']}, {c['tempMin']}, {c['humidityMax']}, {c['humidityMin']});"
+                cur.execute(insert)
+            else:
+                print("We are updating")
+                command = f"UPDATE gh_configs SET tempMax = {c['tempMax']}, tempMin = {c['humidityMax']}, \
+                    humidityMax = {c['tempMin']}, humidityMin = {c['humidityMin']} \
+                        WHERE gh = {str(gh)};"
+                cur.execute(command)
+            gh = gh + 1; # keep track of the greenhouse that we are on (id)
+        conn.commit()
 
-    conn.commit()
-    conn.close()
+        print("Update / Insert Complete")
+        
+    except sqlite3.Error as e:
+        print(e)
+
+    finally:
+        conn.close()
 
 # grabs current config from db and stores it in json object
 def select_current_configs():
@@ -91,4 +108,4 @@ def select_current_configs():
         to_send[str(current_gh)]["humidityMin"] = r[4]
         
     conn.close()
-    return json.dumps(to_send);
+    return json.dumps(to_send)
