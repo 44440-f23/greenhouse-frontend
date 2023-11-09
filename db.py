@@ -34,8 +34,8 @@ def update_existing_configs(config):
                 cur.execute(insert)
             else:
                 print("We are updating")
-                command = f"UPDATE gh_configs SET tempMax = {c['tempMax']}, tempMin = {c['humidityMax']}, \
-                    humidityMax = {c['tempMin']}, humidityMin = {c['humidityMin']} \
+                command = f"UPDATE gh_configs SET tempMax = {c['tempMax']}, tempMin = {c['tempMin']}, \
+                    humidityMax = {c['humidityMax']}, humidityMin = {c['humidityMin']} \
                         WHERE gh = {str(gh)};"
                 cur.execute(command)
             gh = gh + 1; # keep track of the greenhouse that we are on (id)
@@ -103,8 +103,8 @@ def select_current_configs():
     for r in rows:
         current_gh = current_gh + 1
         to_send[str(current_gh)]["tempMax"] = r[1]
-        to_send[str(current_gh)]["humidityMax"] = r[2]
-        to_send[str(current_gh)]["tempMin"] = r[3]
+        to_send[str(current_gh)]["tempMin"] = r[2]
+        to_send[str(current_gh)]["humidityMax"] = r[3]
         to_send[str(current_gh)]["humidityMin"] = r[4]
         
     conn.close()
