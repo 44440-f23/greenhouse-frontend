@@ -83,6 +83,13 @@ def chart():
 def settings():
     return render_template('settings.html')#possible sending of the mins and maxs later
 
+@app.route('/submit_form', methods = ['POST'])
+def submit_form():
+    if request.method == 'POST':
+        data = request.get_json()
+        db.update_existing_configs(data)
+
+
 # when the client socket connects
 @socketio.on("connect")
 def connect():
