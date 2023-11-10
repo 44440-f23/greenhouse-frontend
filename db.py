@@ -105,8 +105,8 @@ def select_current_configs():
     for index, r in enumerate(rows):
         if (index + 1 <= 6):
             to_send[str(index + 1)]["tempMax"] = r[1]
-            to_send[str(index + 1)]["humidityMax"] = r[2]
-            to_send[str(index + 1)]["tempMin"] = r[3]
+            to_send[str(index + 1)]["humidityMax"] = r[3]
+            to_send[str(index + 1)]["tempMin"] = r[2]
             to_send[str(index + 1)]["humidityMin"] = r[4]
     
     conn.close()
