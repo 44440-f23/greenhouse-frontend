@@ -47,7 +47,7 @@ def read_serial():
             serial_port.flush()
             print(line)
             if len(line) != 0 and line[0] == "{":
-                check_bounds(line)                    
+                # check_bounds(line)                    
                 socketio.emit("serial", line)
         except:
             print("failed to read line")
@@ -73,7 +73,7 @@ def simulate_info():
                 "lightS": lightS
             })
 
-            check_bounds(data)
+            # check_bounds(data)
             socketio.emit("serial", data)
 
         time.sleep(2)

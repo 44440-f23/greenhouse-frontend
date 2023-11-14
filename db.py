@@ -15,9 +15,25 @@ def create_connection(db_file):
 # update existing configs based on gather info from settings page
 # requires a complete config file even if only some values are changed
 def update_existing_configs(config):
+    # we have to get the current config before starting 
+    # another db connection to avoid a db lock
+    previous_config = json.loads(select_current_configs())
+
     # will need changed to the location of the DB on the linux machine
     conn = create_connection("./gh_confs.db")
     cur = conn.cursor()
+
+    # If we have a None value replace it with the previous config value from the db
+    # Should be taken care of in the client but just a fail safe
+    for i in range(1, 7): # stop is skipped
+        if config[str(i)]["tempMax"] == None:
+           config[str(i)]["tempMax"] = previous_config[str(i)]["tempMax"] 
+        if config[str(i)]["tempMin"] == None:
+            config[str(i)]["tempMin"] = previous_config[str(i)]["tempMax"]
+        if config[str(i)]["humidityMax"] == None:
+            config[str(i)]["humidityMax"] = previous_config[str(i)]["humidityMax"]
+        if config[str(i)]["humidityMin"] == None:
+            config[str(i)]["humidityMin"] = previous_config[str(i)]["humidityMin"]
 
     try:
         # list of configs generated from the passed in config
@@ -51,6 +67,7 @@ def update_existing_configs(config):
 
     finally:
         conn.close()
+    return
 
 # grabs current config from db and stores it in json object
 def select_current_configs():
