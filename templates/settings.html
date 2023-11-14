@@ -154,7 +154,7 @@
         </div>
         </form>
         
-    <pre id="jsonDisplay"></pre> <!-- Element to display the JSON data -->
+    <!-- <pre id="jsonDisplay"></pre>  Element to display the JSON data -->
 
     <script>
       function submitForm(event) {
@@ -195,8 +195,8 @@
           }
           const jsonData = JSON.stringify(greenhouseData, null, 2);
 
-          const jsonDisplay = document.getElementById('jsonDisplay');
-          jsonDisplay.textContent = jsonData;
+          //const jsonDisplay = document.getElementById('jsonDisplay');
+          //jsonDisplay.textContent = jsonData;
 
           //sending the data to the server using fetch API
           fetch('/submit_form',{

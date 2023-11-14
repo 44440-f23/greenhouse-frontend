@@ -83,6 +83,10 @@ def chart():
 def settings():
     existing_configs = db.select_current_configs()
     existing_data = json.loads(existing_configs)
+<<<<<<< Updated upstream
+=======
+    print ("from settings")
+>>>>>>> Stashed changes
     print(existing_data)
     return render_template('settings.html', existing_data=existing_data)#possible sending of the mins and maxs later
     #configs = json.loads(db.select_current_configs())
@@ -91,7 +95,10 @@ def settings():
 def submit_form():
     if request.method == 'POST':
         data = request.get_json()
+        print("from update submit")
+        print(data)
         db.update_existing_configs(data)
+    return
 
 
 # when the client socket connects
