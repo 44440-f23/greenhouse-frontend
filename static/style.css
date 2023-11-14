@@ -1,11 +1,6 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 2.1em;
-}
-
 .greenhouse {
-    width: 280px;
-    height: 280px;
+    width: 260px;
+    height: 260px;
     background-image: url("house.svg");
     background-size: cover; 
     background-repeat: no-repeat;
@@ -21,16 +16,39 @@ body {
 }
 
 .greenhouse div div {
-    margin-left: 35px;
+    margin-left: 32px;
+    color: black;
+    font-size: 1.7em;
 }
 
 .id {
-    font-size: 1.5em;
+    font-size: 2.3em;
     font-weight: bold;
     top: 17%;
-    left: 43%;
+    left: 44%;
 }
 
+.clickable:hover {
+    border-radius: 35%;
+    border: 1px solid black;
+}
+
+.temp-container {
+    top: 47%;
+    left: 19%;
+}
+
+.humidity-container { 
+    top: 47%; 
+    left: 51%; 
+}
+
+.lux-container { 
+    top: 67%; 
+    left: 27%; 
+}
+
+/* these styling rules are for when there are 5 variables per gh on the status page
 .temp-container {
     top: 40%;
     left: 20%;
@@ -55,3 +73,4 @@ body {
     top: 55%; 
     left: 50%; 
 }
+*/

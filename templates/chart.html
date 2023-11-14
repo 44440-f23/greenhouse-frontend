@@ -7,60 +7,55 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Status</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('chart') }}">Chart</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('settings') }}">Settings</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-    </nav>
-
-    <div class="container" style="height: calc(100vh - 120px);">
-        <!-- selections -->
-        <div class="hstack">
-            <select id="gh-select" class="form-select form-select-lg mb-3">
-                <option value="1" selected>Greenhouse 1</option>
-                <option value="2">Greenhouse 2</option>
-                <option value="3">Greenhouse 3</option>
-                <option value="4">Greenhouse 4</option>
-                <option value="5">Greenhouse 5</option>
-                <option value="6">Greenhouse 6</option>
-            </select>
-            <select id="variable-select" class="form-select form-select-lg mb-3">
-                <option value="temp" selected>Temperature</option>
-                <option value="humidity">Humidity</option>
-                <option value="soilT">Soil Temperature</option>
-                <option value="soilM">Soil Moisture</option>
-                <option value="lightS">Light Exposure</option>
-            </select>
-            <select id="mode-select" class="form-select form-select-lg mb-3">
-                <option value="live" selected>Live <div id="live-indicator"></div>
-                </option>
-            </select>
-        </div>
-        
-        <!-- the line chart -->
-        <canvas id="chart"></canvas>
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ url_for('index') }}">Status</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('chart') }}">Chart</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('settings') }}">Settings</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>  
 
-    <!-- js imports -->
-    <script type="text/javascript" src="{{ url_for('static', filename = 'chartPage.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <div class="container" style="height: calc(100vh - 120px);">
+      <!-- selections -->
+      <div class="hstack">
+        <select id="gh-select" class="form-select form-select-lg mb-3">
+          <option value="1" {% if id == "1" %} selected {% endif %}>Greenhouse 1</option>
+          <option value="2" {% if id == "2" %} selected {% endif %}>Greenhouse 2</option>
+          <option value="3" {% if id == "3" %} selected {% endif %}>Greenhouse 3</option>
+          <option value="4" {% if id == "4" %} selected {% endif %}>Greenhouse 4</option>
+          <option value="5" {% if id == "5" %} selected {% endif %}>Greenhouse 5</option>
+          <option value="6" {% if id == "6" %} selected {% endif %}>Greenhouse 6</option>
+        </select>
+        <select id="variable-select" class="form-select form-select-lg mb-3">
+          <option value="temp" {% if variable == "temp" %} selected {% endif %}>Temperature</option>
+          <option value="humidity" {% if variable == "humidity" %} selected {% endif %}>Humidity</option>
+          <!-- <option value="soilT" {% if variable == "soilT" %} selected {% endif %}>Soil Temperature</option>
+          <option value="soilM" {% if variable == "soilM" %} selected {% endif %}>Soil Moisture</option> -->
+          <option value="lightS" {% if variable == "lightS" %} selected {% endif %}>Light Exposure</option>
+        </select>
+        <select id="mode-select" class="form-select form-select-lg mb-3">
+          <option value="live" selected>Live <div id="live-indicator"></div></option>
+        </select>
+      </div>
+      
+      <!-- the line chart -->
+      <canvas id="chart"></canvas>
+  </div>
+
+  <!-- js imports -->
+  <script type="text/javascript" src="{{ url_for('static', filename = 'chartPage.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>
