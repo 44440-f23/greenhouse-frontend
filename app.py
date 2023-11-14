@@ -90,7 +90,7 @@ def available_serial_connection(port):
 # root
 @app.route('/')
 def index():
-    return render_template('index.html', title="Flaskaroo")
+    return render_template('index.html')
 
 @app.route('/chart')
 def chart():
@@ -119,45 +119,6 @@ def submit_form():
 def connect():
     global is_running
     global simulating
-    
-    db.update_existing_configs({
-        "1" : {
-            "tempMin": 19,
-            "tempMax": 22,
-            "humidityMin":55,
-            "humidityMax": 75,
-        },
-        "2" : {
-            "tempMin": 19,
-            "tempMax": 22,
-            "humidityMin":55,
-            "humidityMax": 75,
-        },
-        "3" : {
-            "tempMin": 19,
-            "tempMax": 22,
-            "humidityMin":55,
-            "humidityMax": 75,
-        },
-        "4" : {
-            "tempMin": 19,
-            "tempMax": 22,
-            "humidityMin":55,
-            "humidityMax": 75,
-        },
-        "5" : {
-            "tempMin": 19,
-            "tempMax": 22,
-            "humidityMin":55,
-            "humidityMax": 75,
-        },
-        "6" : {
-            "tempMin": 19,
-            "tempMax": 22,
-            "humidityMin":55,
-            "humidityMax": 75,
-        }
-    })
 
     print("\nSocket connection to client successful.\n")
 
