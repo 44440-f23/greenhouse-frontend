@@ -90,4 +90,4 @@ def disconnect():
 
 #Entry point to run the Flask application with Socket.IO support
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, allow_unsafe_werkzeug=True)
