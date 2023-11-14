@@ -26,11 +26,7 @@ def update_existing_configs(config):
 
         cur.execute("SELECT * from gh_configs;")
         entries = cur.fetchall()
-<<<<<<< Updated upstream
-        print(entries)
-=======
         # print(entries)
->>>>>>> Stashed changes
         
         gh = 1
         for c in configs: # loop through the configs and use the values of each to update the existing ones in the db
