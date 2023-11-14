@@ -22,11 +22,11 @@ def update_existing_configs(config):
     try:
         # list of configs generated from the passed in config
         configs = [config["1"], config["2"], config["3"], config["4"], config["5"], config["6"]]
-        
 
         cur.execute("SELECT * from gh_configs;")
         entries = cur.fetchall()
         # print(entries)
+
         
         gh = 1
         for c in configs: # loop through the configs and use the values of each to update the existing ones in the db
@@ -103,12 +103,13 @@ def select_current_configs():
     }
 
     # loop through rows of returned info and store them in there correct spot in the json object
-    for index, r in enumerate(rows):
-        if (index + 1 <= 6):
-            to_send[str(index + 1)]["tempMax"] = r[1]
-            to_send[str(index + 1)]["humidityMax"] = r[2]
-            to_send[str(index + 1)]["tempMin"] = r[3]
-            to_send[str(index + 1)]["humidityMin"] = r[4]
-    
+    current_gh = 0
+    for r in rows:
+        current_gh = current_gh + 1
+        to_send[str(current_gh)]["tempMax"] = r[1]
+        to_send[str(current_gh)]["tempMin"] = r[2]
+        to_send[str(current_gh)]["humidityMax"] = r[3]
+        to_send[str(current_gh)]["humidityMin"] = r[4]
+
     conn.close()
-    return json.dumps(to_send);
+    return json.dumps(to_send)
