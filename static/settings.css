@@ -22,11 +22,6 @@ body {
   flex: 1;
   margin: 10px;
   padding: 10px;
-<<<<<<< Updated upstream
-  border: 3px solid #4aba1d; /* Optional border for each greenhouse */
-  box-sizing: border-box;
-}
-=======
   border: 5px solid #4aba1d;
   box-sizing: border-box;
   background-color: #e0f7e0; /* Light green background color */
@@ -44,4 +39,3 @@ body {
 }
 
 /* Add any other styles as needed */
->>>>>>> Stashed changes
