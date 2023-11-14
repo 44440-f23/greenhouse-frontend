@@ -9,7 +9,18 @@ body {
   color: #333; /* Dark text color for better readability */
   font-family: 'Arial', sans-serif
 }
-
+h1{
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+  margin-bottom: 20px;
+  padding: 10px;
+  text-align: center;
+}
+h2{
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+}
+h3{
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+}
 /* Apply CSS styles to arrange greenhouses side by side */
 .greenhouse-form {
   display: flex;
@@ -26,16 +37,27 @@ body {
   box-sizing: border-box;
   background-color: #e0f7e0; /* Light green background color */
   color: #333; /* Dark text color for legibility */
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+
 }
 
 .greenhouse:hover {
   transform: scale(1.05); /* Slightly scale up on hover */
+  background-color: #c0e8c0; /* Slightly darker color on hover */
 }
 
 .col-12 {
   flex-basis: 100%;
   margin-top: 20px;
 }
+.col-12 .btn-primary {
+  background-color: #4aba1d; /* Default color */
+  color: #fff; /* Text color for better readability */
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+}
 
+/* Add hover effect */
+.col-12 .btn-primary:hover {
+  background-color: #3a901b; /* Darker color on hover */
+}
 /* Add any other styles as needed */
