@@ -23,7 +23,7 @@ def check_bounds(gh):
 
         if bound == "Max":
             if gh[variable] > gh_config[key]:
-                # alert admin here
+                requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":"", "value2":"", "value3":""})
                 print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
             if gh[variable] < gh_config[key]:
