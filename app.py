@@ -103,16 +103,12 @@ def chart():
 def settings():
     existing_configs = db.select_current_configs()
     existing_data = json.loads(existing_configs)
-    print("from settings")
-    print(existing_data)
     return render_template('settings.html', existing_data=existing_data)#possible sending of the mins and maxs later
     
 @app.route('/submit_form', methods = ['POST'])
 def submit_form():
     if request.method == 'POST':
         data = request.get_json()
-        print("from update submit")
-        print(data)
         db.update_existing_configs(data)
 
     existing_configs = db.select_current_configs()

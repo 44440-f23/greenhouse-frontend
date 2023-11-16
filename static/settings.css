@@ -2,8 +2,13 @@
   .greenhouse {
     flex: 100%; /* Stack greenhouses on small screens */
   }
-}
+  .switch-container {
+    position: relative; /* Change to 'relative' for smaller screens */
+    top: 0;
+    right: 0;
+  }
 
+}
 body {
   background-color: #f4f4f4; /* Light gray background */
   color: #333; /* Dark text color for better readability */
@@ -45,6 +50,8 @@ h3{
   transform: scale(1.05); /* Slightly scale up on hover */
   background-color: #c0e8c0; /* Slightly darker color on hover */
 }
+
+
 
 .col-12 {
   flex-basis: 100%;
