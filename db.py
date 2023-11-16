@@ -75,13 +75,11 @@ def get_temp_unit():
     cur.execute("SELECT * from temp_unit;")
     temp_bool = cur.fetchall()
 
-    to_send = {"is_celsius" : None }
     if (len(temp_bool) > 0):
-        to_send["is_celsius"] = bool(temp_bool[0][0])
-
-    print(to_send)
-    conn.close()
-    return to_send
+        return bool(temp_bool[0][0])
+    
+    # if we dont have a value in db default to F
+    return False
 
 
 # grabs current config from db and stores it in json object
