@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let gh5 = document.getElementById("5")
     let gh6 = document.getElementById("6")
 
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
     // create our socket 
     // https://socket.io/
     const socket = io.connect()

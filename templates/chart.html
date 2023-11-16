@@ -38,11 +38,11 @@
           <option value="6" {% if id == "6" %} selected {% endif %}>Greenhouse 6</option>
         </select>
         <select id="variable-select" class="form-select form-select-lg mb-3">
-          <option value="temp" {% if variable == "temp" %} selected {% endif %}>Temperature</option>
-          <option value="humidity" {% if variable == "humidity" %} selected {% endif %}>Humidity</option>
+          <option value="temp" {% if variable == "temp" %} selected {% endif %}>Temperature ({% if isCelsius %}&deg;C{% else %}&deg;F{% endif %})</option>
+          <option value="humidity" {% if variable == "humidity" %} selected {% endif %}>Relative Humidity</option>
           <!-- <option value="soilT" {% if variable == "soilT" %} selected {% endif %}>Soil Temperature</option>
           <option value="soilM" {% if variable == "soilM" %} selected {% endif %}>Soil Moisture</option> -->
-          <option value="lightS" {% if variable == "lightS" %} selected {% endif %}>Light Exposure</option>
+          <option value="lightS" {% if variable == "lightS" %} selected {% endif %}>Illuminance</option>
         </select>
         <select id="mode-select" class="form-select form-select-lg mb-3">
           <option value="live" selected>Live <div id="live-indicator"></div></option>

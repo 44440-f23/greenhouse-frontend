@@ -47,7 +47,7 @@ def read_serial():
             serial_port.flush()
             print(line)
             if len(line) != 0 and line[0] == "{":
-                check_bounds(line)                    
+                check_bounds(line)             
                 socketio.emit("serial", line)
         except:
             print("failed to read line")
@@ -71,7 +71,7 @@ def simulate_info():
                 "soilT": soilT,
                 "soilM": soilM,
                 "lightS": lightS
-            })
+            }) 
 
             check_bounds(data)
             socketio.emit("serial", data)
@@ -90,14 +90,14 @@ def available_serial_connection(port):
 # root
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', isCelsius=True)
 
 @app.route('/chart')
 def chart():
     id = request.args.get('id')
     variable = request.args.get('variable')
 
-    return render_template('chart.html', id=id, variable=variable)
+    return render_template('chart.html', id=id, variable=variable, isCelsius=True)
 
 @app.route('/settings')
 def settings():
