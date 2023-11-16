@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 import serial, json, time, random
 import db
-
+import requests
 # init our Flask app and SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
@@ -23,11 +23,11 @@ def check_bounds(gh):
 
         if bound == "Max":
             if gh[variable] > gh_config[key]:
-                requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":"", "value2":"", "value3":""})
+                requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
                 print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
             if gh[variable] < gh_config[key]:
-                # alert admin here
+                requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
                 print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
 
 # helper function that reads the basestations serial port 
