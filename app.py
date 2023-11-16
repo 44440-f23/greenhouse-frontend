@@ -63,7 +63,13 @@ def simulate_info():
             soilT = random.randint(20, 24)    
             soilM = random.randint(30, 60) 
             lightS = random.randint(1, 6000) 
-
+            #isCelius true reading in celius 
+            #if db.getswitchstatus == false{
+            # will only be called when the switch is called
+            # do conversion to farenhight 
+            # F = (currenttemps)* (9/5) + 32
+            # } 
+            
             data = json.dumps({
                 "id": id,
                 "temp": temp,
@@ -116,6 +122,25 @@ def submit_form():
         print(data)
         db.update_existing_configs(data)
     return
+
+@app.route('/toggle_endpoint', methods=['POST'])
+def handle_toggle():
+    data = request.get_json()
+    switch_status = data.get('switchStatus')
+
+    # Perform actions based on the switch status
+    if switch_status:
+        # Switch is toggled ON
+        # Perform actions for Fahrenheit mode
+        print('Switch is ON - Fahrenheit mode')
+
+    else:
+        # Switch is toggled OFF
+        # Perform actions for Celsius mode
+        print('Switch is OFF - Celsius mode')
+        # Add further actions here as needed
+
+    return 'Switch status received'
 
 
 # when the client socket connects

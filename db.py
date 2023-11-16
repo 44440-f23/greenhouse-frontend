@@ -107,8 +107,8 @@ def select_current_configs():
     for r in rows:
         current_gh = current_gh + 1
         to_send[str(current_gh)]["tempMax"] = r[1]
-        to_send[str(current_gh)]["tempMin"] = r[2]
-        to_send[str(current_gh)]["humidityMax"] = r[3]
+        to_send[str(current_gh)]["tempMin"] = r[3]
+        to_send[str(current_gh)]["humidityMax"] = r[2]
         to_send[str(current_gh)]["humidityMin"] = r[4]
 
     conn.close()
