@@ -16,18 +16,22 @@ def check_bounds(gh):
     gh = json.loads(gh)
     all_configs = json.loads(db.select_current_configs())
     gh_config = all_configs[str(gh["id"])]
-
+    has_alerted = False
     for key in gh_config:
         bound = key[len(key)-3:]
         variable = key[:len(key)-3]
 
         if bound == "Max":
             if gh[variable] > gh_config[key]:
-                requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
+		if(!has_alerted):
+			requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
+			has_alerted = True
                 print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
             if gh[variable] < gh_config[key]:
-                requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
+		if(!has_alerted):
+			requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
+			has_alerted = True
                 print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
 
 # helper function that reads the basestations serial port 
