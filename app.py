@@ -39,19 +39,18 @@ def read_serial():
     #define the serial port and baud rate
 
     while True:
-        # reading constantly creates inconsistencies. This seems fairly robust
-        # might run into issues with messages piling up? 
-        # try to grab the line and emit it
-
         serial_port = serial.Serial(port, baudrate=9600)
         serial_port.flush()
 
         try:
+            # try to read in the serial message
             line = serial_port.readline().decode().strip()
             serial_port.flush()
             print(line)
+
+            #do light vaildation on if we should try to parse it
             if len(line) != 0 and line[0] == "{":
-                check_bounds(line)                    
+                # check_bounds(line)                    
                 socketio.emit("serial", line)
         except:
             print("failed to read line")
@@ -77,7 +76,7 @@ def simulate_info():
                 "lightS": lightS
             })
 
-            check_bounds(data)
+            # check_bounds(data)
             socketio.emit("serial", data)
 
         time.sleep(2)

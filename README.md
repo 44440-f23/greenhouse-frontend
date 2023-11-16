@@ -55,4 +55,6 @@ humidityMax INT,
 tempMin INT,
 humidityMin INT
 );
+
+CREATE TABLE temp_unit (is_celsius BOOLEAN);
 ```
