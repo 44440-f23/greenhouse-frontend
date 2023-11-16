@@ -52,6 +52,38 @@ def update_existing_configs(config):
     finally:
         conn.close()
 
+def set_temp_unit(is_celsius: bool):
+    conn = create_connection("./gh_confs.db")
+    cur = conn.cursor()
+
+    cur.execute("select * from temp_unit;")
+    value = cur.fetchall()
+
+    if len(value) == 0:
+        cur.execute(f"INSERT INTO temp_unit (is_celsius) VALUES ({is_celsius});")
+    else:
+        cur.execute(f"UPDATE temp_unit SET is_celsius = {is_celsius};")
+
+    conn.commit()
+    conn.close()
+
+
+def get_temp_unit():
+    conn = create_connection("./gh_confs.db")
+    cur = conn.cursor()
+
+    cur.execute("SELECT * from temp_unit;")
+    temp_bool = cur.fetchall()
+
+    to_send = {"is_celsius" : None }
+    if (len(temp_bool) > 0):
+        to_send["is_celsius"] = bool(temp_bool[0][0])
+
+    print(to_send)
+    conn.close()
+    return to_send
+
+
 # grabs current config from db and stores it in json object
 def select_current_configs():
     # will need changed to the location of the DB on the linux machine
