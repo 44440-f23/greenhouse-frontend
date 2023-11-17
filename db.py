@@ -1,6 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 import json
+from datetime import datetime
 
 def create_connection(db_file):
     conn = None
@@ -50,6 +51,74 @@ def update_existing_configs(config):
 
     finally:
         conn.close()
+
+
+def set_alert_value(is_triggered: bool):
+    conn = create_connection("./gh_confs.db")
+    cur = conn.cursor()
+
+    cur.execute("select * from alert_value;")
+    value = cur.fetchall()
+
+    if len(value) == 0:
+        cur.execute(f"INSERT INTO alert_value (alert_value) VALUES ({is_triggered});")
+    else:
+        cur.execute(f"UPDATE alert_value SET alert_value = {is_triggered}, timestamp=\'{datetime.utcnow().replace(microsecond=0)}\';")
+
+    conn.commit()
+    conn.close()
+
+
+def get_alert_value():
+    conn = create_connection("./gh_confs.db")
+    cur = conn.cursor()
+
+    cur.execute("SELECT * from alert_value;")
+    alert_bool = cur.fetchall()
+
+    if (len(alert_bool) > 0):
+        return [bool(alert_bool[0][0]), alert_bool[0][1]]
+
+
+def determine_minute_delta(timestamp):
+    current_time = datetime.utcnow()
+
+    date_format = "%Y-%m-%d %H:%M:%S"
+    obj_timestamp = datetime.strptime(timestamp, date_format)
+ 
+    timedelta = current_time - obj_timestamp
+    return int(timedelta.seconds / 60)
+
+
+def set_temp_unit(is_celsius: bool):
+    conn = create_connection("./gh_confs.db")
+    cur = conn.cursor()
+
+    cur.execute("select * from temp_unit;")
+    value = cur.fetchall()
+
+    if len(value) == 0:
+        cur.execute(f"INSERT INTO temp_unit (is_celsius) VALUES ({is_celsius});")
+    else:
+        cur.execute(f"UPDATE temp_unit SET is_celsius={is_celsius};")
+
+    conn.commit()
+    conn.close()
+
+
+def get_temp_unit():
+    conn = create_connection("./gh_confs.db")
+    cur = conn.cursor()
+
+    cur.execute("SELECT * from temp_unit;")
+    temp_bool = cur.fetchall()
+
+    if (len(temp_bool) > 0):
+        return bool(temp_bool[0][0])
+    
+    # if we dont have a value in db default to F
+    return False
+
 
 # grabs current config from db and stores it in json object
 def select_current_configs():

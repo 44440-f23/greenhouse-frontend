@@ -4,16 +4,20 @@ import serial, json, time, random
 import db
 import requests
 
+
 # init our Flask app and SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
 
 is_running = False
 simulating = False
+has_alerted = False
 
 port = "/dev/tty.usbmodem2101"
 
 def check_bounds(gh):
+    global has_alerted
+
     gh = json.loads(gh)
     all_configs = json.loads(db.select_current_configs())
     gh_config = all_configs[str(gh["id"])]
@@ -40,18 +44,18 @@ def read_serial():
     #define the serial port and baud rate
 
     while True:
-        # reading constantly creates inconsistencies. This seems fairly robust
-        # might run into issues with messages piling up? 
-        # try to grab the line and emit it
-
         serial_port = serial.Serial(port, baudrate=9600)
         serial_port.flush()
 
         try:
+            # try to read in the serial message
             line = serial_port.readline().decode().strip()
             serial_port.flush()
             print(line)
+
+            #do light vaildation on if we should try to parse it
             if len(line) != 0 and line[0] == "{":
+
                 check_bounds(line)
                 # get temp unit, convert if needed     
                 socketio.emit("serial", line)
@@ -78,7 +82,6 @@ def simulate_info():
                 "soilM": soilM,
                 "lightS": lightS
             }) 
-
             check_bounds(data)
             # get temp unit, convert if needed     
             socketio.emit("serial", data)

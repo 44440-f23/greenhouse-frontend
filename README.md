@@ -55,4 +55,8 @@ humidityMax INT,
 tempMin INT,
 humidityMin INT
 );
+
+CREATE TABLE temp_unit (is_celsius BOOLEAN);
+
+CREATE TABLE alert_value (alert_value BOOLEAN, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 ```
