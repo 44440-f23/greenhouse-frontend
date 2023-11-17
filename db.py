@@ -26,7 +26,6 @@ def update_existing_configs(config):
         cur.execute("SELECT * from gh_configs;")
         entries = cur.fetchall()
         # print(entries)
-
         
         gh = 1
         for c in configs: # loop through the configs and use the values of each to update the existing ones in the db
@@ -54,6 +53,7 @@ def update_existing_configs(config):
 
 
 def set_alert_value(is_triggered: bool):
+    print('\nSETTING ALERT TO', is_triggered, '\n')
     conn = create_connection("./gh_confs.db")
     cur = conn.cursor()
 
@@ -77,7 +77,7 @@ def get_alert_value():
     alert_bool = cur.fetchall()
 
     if (len(alert_bool) > 0):
-        return [bool(alert_bool[0][0]), alert_bool[0][1]]
+        return bool(alert_bool[0][0])
 
 
 def determine_minute_delta(timestamp):

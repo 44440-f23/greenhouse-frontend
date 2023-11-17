@@ -34,7 +34,7 @@
         </h1>
         <div class="hstack justify-content-center gap-3">
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="tempUnit">
+            <input class="form-check-input" type="checkbox" role="switch" id="tempUnit" {% if not isCelsius %} checked {% endif %}>
             <label class="form-check-label" for="tempUnit">Fahrenheit</label>
           </div>
           <button class="btn btn-danger" onclick="resetAlert()">Reset Alert</button>
@@ -166,12 +166,21 @@
 
       // listens for a change in the temp unit toggle and relays info to app.py
       document.getElementById('tempUnit').addEventListener('change', function () {
-        console.log(`temp unit is ${this.checked ? 'F' : 'C'}`)
+        setTimeout(() => {
+          if (this.checked) {
+            alert('Temperature unit changed to Fahrenheit.')
+          }
+          else {
+            alert("Temperature unit changed to Celsius.")
+          }
+        }, 500)
+        
         socketio.emit("tempUnitChange", {isCelsius: !this.checked})
       })
 
       // reset the alert, the admin can get alerts again
       function resetAlert() {
+        alert('Alert has been reset. A notification will be sent if a condition is out of bounds.')
         socketio.emit("resetAlert")
       }
 

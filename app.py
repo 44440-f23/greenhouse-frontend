@@ -4,7 +4,6 @@ import serial, json, time, random
 import db
 import requests
 
-
 # init our Flask app and SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
@@ -14,6 +13,9 @@ simulating = False
 has_alerted = False
 
 port = "/dev/tty.usbmodem2101"
+
+def celsius_to_fahrenheit(temp):
+    return (temp * 9 / 5) + 32
 
 def check_bounds(gh):
     global has_alerted
@@ -28,15 +30,17 @@ def check_bounds(gh):
 
         if bound == "Max":
             if gh[variable] > gh_config[key]:
-                if False: # get alerted
-                    requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
-                    # set alerted to True
+                if db.get_alert_value():
+                    print('\nAlerting admin. No more alerts will be sent.\n')
+                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
+                    db.set_alert_value(False)
                 # print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
             if gh[variable] < gh_config[key]:
-                if False: # get alerted
-                    requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
-                    # set alerted to True
+                if db.get_alert_value():
+                    print('\nAlerting admin. No more alerts will be sent.\n')
+                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
+                    db.set_alert_value(False)
                 # print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
 
 # helper function that reads the basestations serial port 
@@ -51,13 +55,19 @@ def read_serial():
             # try to read in the serial message
             line = serial_port.readline().decode().strip()
             serial_port.flush()
-            print(line)
+            # print(line)
 
-            #do light vaildation on if we should try to parse it
+            # do light vaildation on if we should try to parse it
             if len(line) != 0 and line[0] == "{":
 
                 check_bounds(line)
-                # get temp unit, convert if needed     
+
+                # convert to fahrenheit if user wants
+                if not db.get_temp_unit():
+                    data = json.loads(line)
+                    data['temp'] = celsius_to_fahrenheit(data['temp'])
+                    line = json.dumps(data)
+
                 socketio.emit("serial", line)
         except:
             print("failed to read line")
@@ -83,7 +93,13 @@ def simulate_info():
                 "lightS": lightS
             }) 
             check_bounds(data)
-            # get temp unit, convert if needed     
+
+            # convert to fahrenheit if user wants
+            if not db.get_temp_unit():
+                temp_dict = json.loads(data)
+                temp_dict['temp'] = celsius_to_fahrenheit(temp_dict['temp'])
+                data = json.dumps(temp_dict)
+
             socketio.emit("serial", data)
 
         time.sleep(2)
@@ -100,22 +116,20 @@ def available_serial_connection(port):
 # root
 @app.route('/')
 def index():
-    # get temp unit
-    return render_template('index.html', isCelsius=True)
+    return render_template('index.html', isCelsius=db.get_temp_unit())
 
 @app.route('/chart')
 def chart():
     id = request.args.get('id')
     variable = request.args.get('variable')
 
-    # get temp unit
-    return render_template('chart.html', id=id, variable=variable, isCelsius=True)
+    return render_template('chart.html', id=id, variable=variable, isCelsius=db.get_temp_unit())
 
 @app.route('/settings')
 def settings():
     existing_configs = db.select_current_configs()
     existing_data = json.loads(existing_configs)
-    return render_template('settings.html', existing_data=existing_data)
+    return render_template('settings.html', existing_data=existing_data, isCelsius=db.get_temp_unit())
     
 @app.route('/submit_form', methods = ['POST'])
 def submit_form():
@@ -129,13 +143,13 @@ def submit_form():
 
 @socketio.on("resetAlert")
 def resetAlert():
-    # set alerted to True
-    print('resetting the alert')
+    db.set_alert_value(True)
+    print('\nResetting alert, the admin will be alerted again once a variable is out of bounds.\n')
     
 @socketio.on("tempUnitChange")
 def tempUnitChange(data):
-    # set temp unit
-    print('temperate unit is', 'celsius' if data['isCelsius'] else 'fahrenheit')
+    db.set_temp_unit(True if data['isCelsius'] else False)
+    print('\nTemperate unit set to', 'Celsius' if data['isCelsius'] else 'Fahrenheit', '\n')
 
 # when the client socket connects
 @socketio.on("connect")
