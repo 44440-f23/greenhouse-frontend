@@ -3,6 +3,7 @@ from flask_socketio import SocketIO
 import serial, json, time, random
 import db
 import requests
+
 # init our Flask app and SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
@@ -16,23 +17,23 @@ def check_bounds(gh):
     gh = json.loads(gh)
     all_configs = json.loads(db.select_current_configs())
     gh_config = all_configs[str(gh["id"])]
-    has_alerted = False
+
     for key in gh_config:
         bound = key[len(key)-3:]
         variable = key[:len(key)-3]
 
         if bound == "Max":
             if gh[variable] > gh_config[key]:
-		if(!has_alerted):
-			requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
-			has_alerted = True
-                print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
+                if False: # get alerted
+                    requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
+                    # set alerted to True
+                # print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
             if gh[variable] < gh_config[key]:
-		if(!has_alerted):
-			requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
-			has_alerted = True
-                print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
+                if False: # get alerted
+                    requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh[id], "value2":variable, "value3":gh[variable]})
+                    # set alerted to True
+                # print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
 
 # helper function that reads the basestations serial port 
 def read_serial():
@@ -51,7 +52,8 @@ def read_serial():
             serial_port.flush()
             print(line)
             if len(line) != 0 and line[0] == "{":
-                check_bounds(line)             
+                check_bounds(line)
+                # get temp unit, convert if needed     
                 socketio.emit("serial", line)
         except:
             print("failed to read line")
@@ -78,6 +80,7 @@ def simulate_info():
             }) 
 
             check_bounds(data)
+            # get temp unit, convert if needed     
             socketio.emit("serial", data)
 
         time.sleep(2)
@@ -94,6 +97,7 @@ def available_serial_connection(port):
 # root
 @app.route('/')
 def index():
+    # get temp unit
     return render_template('index.html', isCelsius=True)
 
 @app.route('/chart')
@@ -101,13 +105,14 @@ def chart():
     id = request.args.get('id')
     variable = request.args.get('variable')
 
+    # get temp unit
     return render_template('chart.html', id=id, variable=variable, isCelsius=True)
 
 @app.route('/settings')
 def settings():
     existing_configs = db.select_current_configs()
     existing_data = json.loads(existing_configs)
-    return render_template('settings.html', existing_data=existing_data)#possible sending of the mins and maxs later
+    return render_template('settings.html', existing_data=existing_data)
     
 @app.route('/submit_form', methods = ['POST'])
 def submit_form():
@@ -119,6 +124,15 @@ def submit_form():
     existing_data = json.loads(existing_configs)
     return render_template('settings.html', existing_data=existing_data)
 
+@socketio.on("resetAlert")
+def resetAlert():
+    # set alerted to True
+    print('resetting the alert')
+    
+@socketio.on("tempUnitChange")
+def tempUnitChange(data):
+    # set temp unit
+    print('temperate unit is', 'celsius' if data['isCelsius'] else 'fahrenheit')
 
 # when the client socket connects
 @socketio.on("connect")
@@ -135,7 +149,7 @@ def connect():
             is_running = True
             print('\nInitial serial reading started.\n')
         else:
-            print('\Already reading from serial, will continue to do so.\n')
+            print('\nAlready reading from serial, will continue to do so.\n')
     else:
         if not simulating:
             # pretend to receive json info

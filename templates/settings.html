@@ -32,9 +32,12 @@
         <h1>
             Greenhouse Settings
         </h1>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-          <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+        <div class="hstack justify-content-center gap-3">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="tempUnit">
+            <label class="form-check-label" for="tempUnit">Fahrenheit</label>
+          </div>
+          <button class="btn btn-danger" onclick="resetAlert()">Reset Alert</button>
         </div>
         <form class="greenhouse-form">
         <div class="greenhouse" id="greenhouse1">
@@ -139,9 +142,9 @@
             <h3>Temperature</h3>
             <div id="greenhouse6temp">
               <label for="temp6Min" class="col-form-label"> Minimum Temperature</label>
-              <input class="min" type="number" value = "{{existing_data['6']['tempMin'] }}" id="temp6min"/>
+              <input class="min" type="number" value = "{{existing_data['6']['tempMin'] }}" id="temp6Min"/>
               <label for="temp6Max" class="col-form-label"> Maximum Temperature</label>
-              <input class="max" type="number" value = "{{existing_data['6']['tempMax'] }}" id="temp6max"/>
+              <input class="max" type="number" value = "{{existing_data['6']['tempMax'] }}" id="temp6Max"/>
             </div>
             <h3>Humidity</h3>
             <div id="greenhouse6hum">
@@ -159,6 +162,19 @@
     <!-- <pre id="jsonDisplay"></pre>  Element to display the JSON data -->
 
     <script>
+      const socketio = io()
+
+      // listens for a change in the temp unit toggle and relays info to app.py
+      document.getElementById('tempUnit').addEventListener('change', function () {
+        console.log(`temp unit is ${this.checked ? 'F' : 'C'}`)
+        socketio.emit("tempUnitChange", {isCelsius: !this.checked})
+      })
+
+      // reset the alert, the admin can get alerts again
+      function resetAlert() {
+        socketio.emit("resetAlert")
+      }
+
       function submitForm(event) {
           event.preventDefault(); // Prevents the default form submission behavior
 
@@ -220,7 +236,7 @@
             console.error('Error: ', error);
           }) 
       }
-  </script>
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     </body>
     
