@@ -77,7 +77,7 @@ def get_alert_value():
     alert_bool = cur.fetchall()
 
     if (len(alert_bool) > 0):
-        return bool(alert_bool[0][0])
+        return [bool(alert_bool[0][0]), alert_bool[0][1]]
 
 
 def determine_minute_delta(timestamp):
@@ -174,12 +174,20 @@ def select_current_configs():
     current_gh = 0
     
     # row format (id: 1, tMax: 50, hMax: 50, tMin30, hmin30)
-    for r in rows:
-        current_gh = current_gh + 1
-        to_send[str(current_gh)]["tempMax"] = r[1]
-        to_send[str(current_gh)]["tempMin"] = r[2]
-        to_send[str(current_gh)]["humidityMax"] = r[3]
-        to_send[str(current_gh)]["humidityMin"] = r[4]
+    if not get_temp_unit(): # convert to F
+        for r in rows:
+            current_gh = current_gh + 1
+            to_send[str(current_gh)]["tempMax"] = round(r[1] * 9/5) + 32
+            to_send[str(current_gh)]["tempMin"] = round(r[3] * 9/5) + 32
+            to_send[str(current_gh)]["humidityMax"] = r[2]
+            to_send[str(current_gh)]["humidityMin"] = r[4]
+    else:
+        for r in rows:
+            current_gh = current_gh + 1
+            to_send[str(current_gh)]["tempMax"] = r[1]
+            to_send[str(current_gh)]["tempMin"] = r[3]
+            to_send[str(current_gh)]["humidityMax"] = r[2]
+            to_send[str(current_gh)]["humidityMin"] = r[4]
 
     conn.close()
     return json.dumps(to_send)

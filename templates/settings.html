@@ -169,9 +169,11 @@
         setTimeout(() => {
           if (this.checked) {
             alert('Temperature unit changed to Fahrenheit.')
+            location.reload()
           }
           else {
             alert("Temperature unit changed to Celsius.")
+            location.reload()
           }
         }, 500)
         
@@ -213,12 +215,22 @@
               return; // Stop processing
             }
             const greenhouseNumber = i + 1;
-            greenhouseData[greenhouseNumber] = {
-                tempMax: tempMax,
-                tempMin: tempMin,
+            is_fahrenheit =  document.getElementById('tempUnit').checked
+            if (is_fahrenheit){
+              greenhouseData[greenhouseNumber] = {
+                tempMax: Math.floor((tempMax - 32) * 5/9),
+                tempMin: Math.floor((tempMin - 32) * 5/9),
                 humidityMax: humidityMax,
                 humidityMin: humidityMin
-            };
+              };
+            } else {
+              greenhouseData[greenhouseNumber] = {
+                  tempMax: tempMax,
+                  tempMin: tempMin,
+                  humidityMax: humidityMax,
+                  humidityMin: humidityMin
+              };
+            }
           }
           const jsonData = JSON.stringify(greenhouseData, null, 2);
 
