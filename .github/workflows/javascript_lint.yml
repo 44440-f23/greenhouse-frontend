@@ -1,4 +1,4 @@
-name: Lint JavaScript Files
+name: JavaScript Linting
 
 on:
   push:
