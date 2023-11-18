@@ -216,6 +216,8 @@
             }
             const greenhouseNumber = i + 1;
             is_fahrenheit =  document.getElementById('tempUnit').checked
+
+            // if we are entering temps for F save as C in db
             if (is_fahrenheit){
               greenhouseData[greenhouseNumber] = {
                 tempMax: Math.floor((tempMax - 32) * 5/9),

@@ -174,6 +174,7 @@ def select_current_configs():
     current_gh = 0
     
     # row format (id: 1, tMax: 50, hMax: 50, tMin30, hmin30)
+    # if the unit is Fahrenheit convert it to that before we display it
     if not get_temp_unit(): # convert to F
         for r in rows:
             current_gh = current_gh + 1
