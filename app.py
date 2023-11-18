@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO
-import serial, json, time, random
+import serial
+import json
+import time
+import random
 import db
 import requests
 
@@ -25,27 +28,31 @@ def check_bounds(gh):
     gh_config = all_configs[str(gh["id"])]
 
     for key in gh_config:
-        bound = key[len(key)-3:]
-        variable = key[:len(key)-3]
+        bound = key[len(key) - 3:]
+        variable = key[:len(key) - 3]
 
         if bound == "Max":
             if gh[variable] > gh_config[key]:
                 if db.get_alert_value():
                     print('\nAlerting admin. No more alerts will be sent.\n')
-                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
+                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/ \
+                    # with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R",  \
+                    # json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
                     db.set_alert_value(False)
                 # print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
             if gh[variable] < gh_config[key]:
                 if db.get_alert_value():
                     print('\nAlerting admin. No more alerts will be sent.\n')
-                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
+                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/ \
+                    # with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", \
+                    # json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
                     db.set_alert_value(False)
                 # print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
 
-# helper function that reads the basestations serial port 
+# helper function that reads the basestations serial port
 def read_serial():
-    #define the serial port and baud rate
+    # define the serial port and baud rate
 
     while True:
         serial_port = serial.Serial(port, baudrate=9600)
@@ -75,14 +82,14 @@ def read_serial():
 # randomly generate info from random greenhouses
 def simulate_info():
     while True:
-        gh_ids = list(set([random.randint(1,6) for _ in range(random.randint(1,6))]))
+        gh_ids = list(set([random.randint(1, 6) for _ in range(random.randint(1, 6))]))
 
         for id in gh_ids:
             temp = random.randint(18, 23)
-            humidity = random.randint(50, 80)   
-            soilT = random.randint(20, 24)    
-            soilM = random.randint(30, 60) 
-            lightS = random.randint(1, 6000) 
+            humidity = random.randint(50, 80)
+            soilT = random.randint(20, 24)
+            soilM = random.randint(30, 60)
+            lightS = random.randint(1, 6000)
 
             data = json.dumps({
                 "id": id,
@@ -91,7 +98,7 @@ def simulate_info():
                 "soilT": soilT,
                 "soilM": soilM,
                 "lightS": lightS
-            }) 
+            })
             check_bounds(data)
 
             # convert to fahrenheit if user wants
@@ -112,7 +119,7 @@ def available_serial_connection(port):
         return True
     except serial.serialutil.SerialException:
         return False
-    
+
 # root
 @app.route('/')
 def index():
@@ -130,8 +137,8 @@ def settings():
     existing_configs = db.select_current_configs()
     existing_data = json.loads(existing_configs)
     return render_template('settings.html', existing_data=existing_data, isCelsius=db.get_temp_unit())
-    
-@app.route('/submit_form', methods = ['POST'])
+
+@app.route('/submit_form', methods=['POST'])
 def submit_form():
     if request.method == 'POST':
         data = request.get_json()
@@ -145,7 +152,7 @@ def submit_form():
 def resetAlert():
     db.set_alert_value(True)
     print('\nResetting alert, the admin will be alerted again once a variable is out of bounds.\n')
-    
+
 @socketio.on("tempUnitChange")
 def tempUnitChange(data):
     db.set_temp_unit(True if data['isCelsius'] else False)
@@ -176,11 +183,11 @@ def connect():
         else:
             print('\nAlready simulating, will continue to do so.\n')
 
-#Event handler for a client disconnecting from the socket
+# Event handler for a client disconnecting from the socket
 @socketio.on("disconnect")
 def disconnect():
     print("\nSocket disconnected.\n")
 
-#Entry point to run the Flask application with Socket.IO support
+# Entry point to run the Flask application with Socket.IO support
 if __name__ == '__main__':
     socketio.run(app, allow_unsafe_werkzeug=True)

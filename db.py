@@ -26,25 +26,29 @@ def update_existing_configs(config):
         cur.execute("SELECT * from gh_configs;")
         entries = cur.fetchall()
         # print(entries)
-        
+
         gh = 1
-        for c in configs: # loop through the configs and use the values of each to update the existing ones in the db
+        # loop through the configs and use the values of each to update the existing ones in the db
+        for c in configs:
             if len(entries) == 0:
                 print("We are inserting")
-                insert = f"INSERT INTO gh_configs (gh, tempMax, tempMin, humidityMax, humidityMin) \
-                VALUES ('{str(gh)}', {c['tempMax']}, {c['tempMin']}, {c['humidityMax']}, {c['humidityMin']});"
+                insert = f"INSERT INTO gh_configs (gh, tempMax, tempMin, \
+                    humidityMax, humidityMin) VALUES ('{str(gh)}', {c['tempMax']}, \
+                    {c['tempMin']}, {c['humidityMax']}, {c['humidityMin']});"
                 cur.execute(insert)
             else:
                 print("We are updating")
-                command = f"UPDATE gh_configs SET tempMax = {c['tempMax']}, tempMin = {c['tempMin']}, \
-                    humidityMax = {c['humidityMax']}, humidityMin = {c['humidityMin']} \
-                        WHERE gh = {str(gh)};"
+                command = f"UPDATE gh_configs SET tempMax = {c['tempMax']}, \
+                tempMin = {c['tempMin']}, humidityMax = {c['humidityMax']}, \
+                humidityMin = {c['humidityMin']} \
+                WHERE gh = {str(gh)};"
+
                 cur.execute(command)
-            gh = gh + 1; # keep track of the greenhouse that we are on (id)
+            gh = gh + 1  # keep track of the greenhouse that we are on (id)
         conn.commit()
 
         print("Update / Insert Complete")
-        
+
     except sqlite3.Error as e:
         print(e)
 
@@ -63,7 +67,8 @@ def set_alert_value(is_triggered: bool):
     if len(value) == 0:
         cur.execute(f"INSERT INTO alert_value (alert_value) VALUES ({is_triggered});")
     else:
-        cur.execute(f"UPDATE alert_value SET alert_value = {is_triggered}, timestamp=\'{datetime.utcnow().replace(microsecond=0)}\';")
+        cur.execute(f"UPDATE alert_value SET alert_value = {is_triggered}, \
+                     timestamp=\'{datetime.utcnow().replace(microsecond=0)}\';")
 
     conn.commit()
     conn.close()
@@ -85,7 +90,7 @@ def determine_minute_delta(timestamp):
 
     date_format = "%Y-%m-%d %H:%M:%S"
     obj_timestamp = datetime.strptime(timestamp, date_format)
- 
+
     timedelta = current_time - obj_timestamp
     return int(timedelta.seconds / 60)
 
@@ -115,7 +120,7 @@ def get_temp_unit():
 
     if (len(temp_bool) > 0):
         return bool(temp_bool[0][0])
-    
+
     # if we dont have a value in db default to F
     return False
 
@@ -132,47 +137,47 @@ def select_current_configs():
     rows = cur.fetchall()
 
     to_send = {
-        "1" : {
-        "tempMax": 0,
-        "tempMin": 0,
-        "humidityMax": 0,
-        "humidityMin": 0,
+        "1": {
+            "tempMax": 0,
+            "tempMin": 0,
+            "humidityMax": 0,
+            "humidityMin": 0,
         },
-        "2" : {
-        "tempMax": 0,
-        "tempMin": 0,
-        "humidityMax": 0,
-        "humidityMin": 0,
+        "2": {
+            "tempMax": 0,
+            "tempMin": 0,
+            "humidityMax": 0,
+            "humidityMin": 0,
         },
-        "3" : {
-        "tempMax": 0,
-        "tempMin": 0,
-        "humidityMax": 0,
-        "humidityMin": 0,
+        "3": {
+            "tempMax": 0,
+            "tempMin": 0,
+            "humidityMax": 0,
+            "humidityMin": 0,
         },
-        "4" : {
-        "tempMax": 0,
-        "tempMin": 0,
-        "humidityMax": 0,
-        "humidityMin": 0,
+        "4": {
+            "tempMax": 0,
+            "tempMin": 0,
+            "humidityMax": 0,
+            "humidityMin": 0,
         },
-        "5" : {
-        "tempMax": 0,
-        "tempMin": 0,
-        "humidityMax": 0,
-        "humidityMin": 0,
+        "5": {
+            "tempMax": 0,
+            "tempMin": 0,
+            "humidityMax": 0,
+            "humidityMin": 0,
         },
-        "6" : {
-        "tempMax": 0,
-        "tempMin": 0,
-        "humidityMax": 0,
-        "humidityMin": 0,
+        "6": {
+            "tempMax": 0,
+            "tempMin": 0,
+            "humidityMax": 0,
+            "humidityMin": 0,
         }
     }
 
     # loop through rows of returned info and store them in there correct spot in the json object
     current_gh = 0
-    
+
     # row format (id: 1, tMax: 50, hMax: 50, tMin30, hmin30)
     for r in rows:
         current_gh = current_gh + 1

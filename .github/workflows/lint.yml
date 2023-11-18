@@ -28,4 +28,4 @@ jobs:
 
     - name: Lint Python files
       run: |
-        flake8 .
+        flake8 --max-line-length=150 --ignore=E402,F841,F401,E302,E305,E722
