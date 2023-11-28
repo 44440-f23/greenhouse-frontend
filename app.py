@@ -11,6 +11,7 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 is_running = False
 simulating = False
 has_alerted = False
+alert_interval = 10 # can alert at this interval, minutes
 
 port = "/dev/tty.usbmodem2101"
 
@@ -30,18 +31,18 @@ def check_bounds(gh):
 
         if bound == "Max":
             if gh[variable] > gh_config[key]:
-                if db.get_alert_value():
+                if db.get_alert_value()[0] or db.determine_minute_delta(db.get_alert_value()[1]) >= alert_interval:
                     print('\nAlerting admin. No more alerts will be sent.\n')
                     # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
                     db.set_alert_value(False)
-                # print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
+                    print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
             if gh[variable] < gh_config[key]:
-                if db.get_alert_value():
+                if db.get_alert_value()[0] or db.determine_minute_delta(db.get_alert_value()[1]) >= alert_interval:
                     print('\nAlerting admin. No more alerts will be sent.\n')
                     # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
                     db.set_alert_value(False)
-                # print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
+                    print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
 
 # helper function that reads the basestations serial port 
 def read_serial():
