@@ -1,12 +1,19 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 import serial, json, time, random
-import db
 import requests
+from db import Database
 
 # init our Flask app and SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gh_confs.db'  # Adjust the URI as needed
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+database = Database(app=app)
+database.create_tables()
 
 is_running = False
 simulating = False
@@ -22,7 +29,7 @@ def check_bounds(gh):
     global has_alerted
 
     gh = json.loads(gh)
-    all_configs = json.loads(db.select_current_configs())
+    all_configs = json.loads(database.select_current_configs())
     gh_config = all_configs[str(gh["id"])]
 
     for key in gh_config:
@@ -31,17 +38,17 @@ def check_bounds(gh):
 
         if bound == "Max":
             if gh[variable] > gh_config[key]:
-                if db.get_alert_value()[0] or db.determine_minute_delta(db.get_alert_value()[1]) >= alert_interval:
+                if database.get_alert_value()[0] or database.determine_minute_delta(str(database.get_alert_value()[1])) >= alert_interval:
                     print('\nAlerting admin. No more alerts will be sent.\n')
                     # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
-                    db.set_alert_value(False)
+                    database.set_alert_value(False)
                     print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
             if gh[variable] < gh_config[key]:
-                if db.get_alert_value()[0] or db.determine_minute_delta(db.get_alert_value()[1]) >= alert_interval:
+                if database.get_alert_value()[0] or database.determine_minute_delta(str(database.get_alert_value()[1])) >= alert_interval:
                     print('\nAlerting admin. No more alerts will be sent.\n')
                     # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
-                    db.set_alert_value(False)
+                    database.set_alert_value(False)
                     print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
 
 # helper function that reads the basestations serial port 
@@ -64,7 +71,7 @@ def read_serial():
                 check_bounds(line)
 
                 # convert to fahrenheit if user wants
-                if not db.get_temp_unit():
+                if not database.get_temp_unit():
                     data = json.loads(line)
                     data['temp'] = celsius_to_fahrenheit(data['temp'])
                     line = json.dumps(data)
@@ -96,7 +103,7 @@ def simulate_info():
             check_bounds(data)
 
             # convert to fahrenheit if user wants
-            if not db.get_temp_unit():
+            if not database.get_temp_unit():
                 temp_dict = json.loads(data)
                 temp_dict['temp'] = celsius_to_fahrenheit(temp_dict['temp'])
                 data = json.dumps(temp_dict)
@@ -117,39 +124,42 @@ def available_serial_connection(port):
 # root
 @app.route('/')
 def index():
-    return render_template('index.html', isCelsius=db.get_temp_unit())
+    temp_unit = database.get_temp_unit()
+    return render_template('index.html', isCelsius=temp_unit)
 
 @app.route('/chart')
 def chart():
     id = request.args.get('id')
     variable = request.args.get('variable')
+    temp_unit = database.get_temp_unit()
 
-    return render_template('chart.html', id=id, variable=variable, isCelsius=db.get_temp_unit())
+    return render_template('chart.html', id=id, variable=variable, isCelsius=temp_unit)
 
 @app.route('/settings')
 def settings():
-    existing_configs = db.select_current_configs()
+    existing_configs = database.select_current_configs()
     existing_data = json.loads(existing_configs)
-    return render_template('settings.html', existing_data=existing_data, isCelsius=db.get_temp_unit())
+    temp_unit = database.get_temp_unit()
+    return render_template('settings.html', existing_data=existing_data, isCelsius=temp_unit)
     
 @app.route('/submit_form', methods = ['POST'])
 def submit_form():
     if request.method == 'POST':
         data = request.get_json()
-        db.update_existing_configs(data)
+        database.update_existing_configs(data)
 
-    existing_configs = db.select_current_configs()
+    existing_configs = database.select_current_configs()
     existing_data = json.loads(existing_configs)
     return render_template('settings.html', existing_data=existing_data)
 
 @socketio.on("resetAlert")
 def resetAlert():
-    db.set_alert_value(True)
+    database.set_alert_value(True)
     print('\nResetting alert, the admin will be alerted again once a variable is out of bounds.\n')
     
 @socketio.on("tempUnitChange")
 def tempUnitChange(data):
-    db.set_temp_unit(True if data['isCelsius'] else False)
+    database.set_temp_unit(True if data['isCelsius'] else False)
     print('\nTemperate unit set to', 'Celsius' if data['isCelsius'] else 'Fahrenheit', '\n')
 
 # when the client socket connects
