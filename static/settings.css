@@ -26,7 +26,11 @@ body {
   box-sizing: border-box;
   background-color: #e0f7e0; /* Light green background color */
   color: #333; /* Dark text color for legibility */
+<<<<<<< Updated upstream
   transition: transform 0.3s ease-in-out;
+=======
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease;
+>>>>>>> Stashed changes
 }
 
 .greenhouse:hover {
