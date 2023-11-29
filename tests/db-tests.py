@@ -1,6 +1,5 @@
 import unittest
 from datetime import datetime, timedelta
-from unittest.mock import patch
 from flask import Flask
 from db import Database, gh_configs, alert_value, temp_unit
 import json
@@ -135,19 +134,50 @@ class test_db_functions(unittest.TestCase):
         self.assertEqual(updated.humidityMax, 70)
         self.assertEqual(updated.humidityMin, 60)
 
-    @patch("db.sqlite3.connect")
-    def test_get_all_gh_configs(self, mock_connect):
-        mock_cur = mock_connect.return_value.cursor.return_value
-
-        mock_cur.fetchall.return_value = [(1, 32, 80, 20, 30),
-                                            (2, 32, 80, 22, 30),
-                                            (3, 32, 80, 20, 30),
-                                            (4, 32, 80, 20, 30),
-                                            (5, 32, 80, 22, 30),
-                                            (6, 32, 80, 22, 30)]
+    def test_get_all_gh_configs(self):
+        test_config = {
+            "1" : {
+            "tempMax": 60,
+            "tempMin": 40,
+            "humidityMax": 70,
+            "humidityMin": 60,
+            },
+            "2" : {
+            "tempMax": 80,
+            "tempMin": 50,
+            "humidityMax": 90,
+            "humidityMin": 80,
+            },
+            "3" : {
+            "tempMax": 80,
+            "tempMin": 50,
+            "humidityMax": 90,
+            "humidityMin": 80,
+            },
+            "4" : {
+            "tempMax": 80,
+            "tempMin": 50,
+            "humidityMax": 90,
+            "humidityMin": 80,
+            },
+            "5" : {
+            "tempMax": 80,
+            "tempMin": 50,
+            "humidityMax": 90,
+            "humidityMin": 80,
+            },
+            "6" : {
+            "tempMax": 80,
+            "tempMin": 50,
+            "humidityMax": 90,
+            "humidityMin": 80,
+            }
+        }
+        with self.app.app_context():
+            self.db.update_existing_configs(test_config)
+            current = self.db.select_current_configs()
         
-        configs = self.db.select_current_configs()
-        self.assertEqual(len(json.loads(configs)), 6)
+        self.assertEqual(len(json.loads(current)), 6)
 
 
 if __name__ == '__main__':
