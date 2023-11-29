@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from flask import Flask
 from db import Database, gh_configs, alert_value, temp_unit
 import json
+from test_data import test_config
 
 class test_db_functions(unittest.TestCase):
 
@@ -87,44 +88,6 @@ class test_db_functions(unittest.TestCase):
 
     def test_insert_config(self):
 
-        test_config = {
-            "1" : {
-            "tempMax": 60,
-            "tempMin": 40,
-            "humidityMax": 70,
-            "humidityMin": 60,
-            },
-            "2" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            },
-            "3" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            },
-            "4" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            },
-            "5" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            },
-            "6" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            }
-        }
         with self.app.app_context():
             result = self.db.update_existing_configs(test_config)
             updated = gh_configs.query.filter_by(gh=1).first()
@@ -135,44 +98,7 @@ class test_db_functions(unittest.TestCase):
         self.assertEqual(updated.humidityMin, 60)
 
     def test_get_all_gh_configs(self):
-        test_config = {
-            "1" : {
-            "tempMax": 60,
-            "tempMin": 40,
-            "humidityMax": 70,
-            "humidityMin": 60,
-            },
-            "2" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            },
-            "3" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            },
-            "4" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            },
-            "5" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            },
-            "6" : {
-            "tempMax": 80,
-            "tempMin": 50,
-            "humidityMax": 90,
-            "humidityMin": 80,
-            }
-        }
+
         with self.app.app_context():
             self.db.update_existing_configs(test_config)
             current = self.db.select_current_configs()
