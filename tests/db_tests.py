@@ -10,7 +10,7 @@ class test_db_functions(unittest.TestCase):
     def setUp(self):
         self.app = Flask(__name__)
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'  # Use an in-memory database for testing
-        self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable Flask-SQLAlchemy modification tracking
+        self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         self.db = Database(self.app)
         self.db.create_tables()
 
@@ -89,7 +89,7 @@ class test_db_functions(unittest.TestCase):
     def test_insert_config(self):
 
         with self.app.app_context():
-            result = self.db.update_existing_configs(test_config)
+            self.db.update_existing_configs(test_config)
             updated = gh_configs.query.filter_by(gh=1).first()
 
         self.assertEqual(updated.tempMax, 60)
