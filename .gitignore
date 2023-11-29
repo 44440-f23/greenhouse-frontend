@@ -2,3 +2,4 @@ gh_confs.db
 gh_confs
 __pycache__/
 __pycache__
+.coverage
