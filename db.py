@@ -4,6 +4,7 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, DateTime, Boolean
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+import default_data
 
 db = SQLAlchemy()
 
@@ -135,44 +136,7 @@ class Database:
         with self.app.app_context():
             current = gh_configs.query.all()
 
-            to_send = {
-                "1" : {
-                "tempMax": 0,
-                "tempMin": 0,
-                "humidityMax": 0,
-                "humidityMin": 0,
-                },
-                "2" : {
-                "tempMax": 0,
-                "tempMin": 0,
-                "humidityMax": 0,
-                "humidityMin": 0,
-                },
-                "3" : {
-                "tempMax": 0,
-                "tempMin": 0,
-                "humidityMax": 0,
-                "humidityMin": 0,
-                },
-                "4" : {
-                "tempMax": 0,
-                "tempMin": 0,
-                "humidityMax": 0,
-                "humidityMin": 0,
-                },
-                "5" : {
-                "tempMax": 0,
-                "tempMin": 0,
-                "humidityMax": 0,
-                "humidityMin": 0,
-                },
-                "6" : {
-                "tempMax": 0,
-                "tempMin": 0,
-                "humidityMax": 0,
-                "humidityMin": 0,
-                }
-            }
+            to_send = default_data.to_send
 
             # loop through rows of returned info and store them in there correct spot in the json object
             current_gh = 0
