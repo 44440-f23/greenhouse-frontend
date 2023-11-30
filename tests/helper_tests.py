@@ -1,13 +1,12 @@
 import unittest
 from unittest.mock import patch
-from datetime import datetime, timedelta
 from flask import Flask
 from db import Database, gh_configs, alert_value, temp_unit
 import json
 from test_data import test_config
 from helpers import check_bounds, read_serial, simulate_info, celsius_to_fahrenheit
 
-class test_db_functions(unittest.TestCase):
+class test_helper_functions(unittest.TestCase):
 
     def setUp(self):
         self.app = Flask(__name__)

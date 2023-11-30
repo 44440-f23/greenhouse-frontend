@@ -87,7 +87,6 @@ class test_db_functions(unittest.TestCase):
             self.assertEqual(val, False)
 
     def test_insert_config(self):
-
         with self.app.app_context():
             self.db.update_existing_configs(test_config)
             updated = gh_configs.query.filter_by(gh=1).first()
@@ -97,6 +96,21 @@ class test_db_functions(unittest.TestCase):
         self.assertEqual(updated.humidityMax, 70)
         self.assertEqual(updated.humidityMin, 60)
 
+    def test_update_config(self):
+        with self.app.app_context():
+            self.db.update_existing_configs(test_config)
+
+            test_config["1"]["tempMax"] = 80
+            test_config["1"]["tempMin"] = 30
+            self.db.update_existing_configs(test_config)
+
+            updated = gh_configs.query.filter_by(gh=1).first()
+
+            self.assertEqual(updated.tempMax, 80)
+            self.assertEqual(updated.tempMin, 30)
+            self.assertEqual(updated.humidityMax, 70)
+            self.assertEqual(updated.humidityMin, 60)
+
     def test_get_all_gh_configs(self):
 
         with self.app.app_context():
@@ -104,7 +118,3 @@ class test_db_functions(unittest.TestCase):
             current = self.db.select_current_configs()
         
         self.assertEqual(len(json.loads(current)), 6)
-
-
-if __name__ == '__main__':
-    unittest.main()
