@@ -1,9 +1,9 @@
-name: Code Coverage
+name: Unit Tests and Code Coverage
 
 on:
   pull_request:
     branches:
-      - main  # adjust this to your main branch name
+      - main
 
 jobs:
   coverage:
