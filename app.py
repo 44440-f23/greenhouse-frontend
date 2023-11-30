@@ -84,13 +84,7 @@ def simulate_info():
             soilT = random.randint(20, 24)    
             soilM = random.randint(30, 60) 
             lightS = random.randint(1, 6000) 
-            #isCelius true reading in celius 
-            #if db.getswitchstatus == false{
-            # will only be called when the switch is called
-            # do conversion to farenhight 
-            # F = (currenttemps)* (9/5) + 32
-            # } 
-            
+
             data = json.dumps({
                 "id": id,
                 "temp": temp,
@@ -144,25 +138,19 @@ def submit_form():
         data = request.get_json()
         db.update_existing_configs(data)
 
-@app.route('/toggle_endpoint', methods=['POST'])
-def handle_toggle():
-    data = request.get_json()
-    switch_status = data.get('switchStatus')
+    existing_configs = db.select_current_configs()
+    existing_data = json.loads(existing_configs)
+    return render_template('settings.html', existing_data=existing_data)
 
-    # Perform actions based on the switch status
-    if switch_status:
-        # Switch is toggled ON
-        # Perform actions for Fahrenheit mode
-        print('Switch is ON - Fahrenheit mode')
-
-    else:
-        # Switch is toggled OFF
-        # Perform actions for Celsius mode
-        print('Switch is OFF - Celsius mode')
-        # Add further actions here as needed
-
-    return 'Switch status received'
-
+@socketio.on("resetAlert")
+def resetAlert():
+    db.set_alert_value(True)
+    print('\nResetting alert, the admin will be alerted again once a variable is out of bounds.\n')
+    
+@socketio.on("tempUnitChange")
+def tempUnitChange(data):
+    db.set_temp_unit(True if data['isCelsius'] else False)
+    print('\nTemperate unit set to', 'Celsius' if data['isCelsius'] else 'Fahrenheit', '\n')
 
 # when the client socket connects
 @socketio.on("connect")
