@@ -18,9 +18,16 @@ jobs:
       with:
         python-version: 3.11
 
+    - name: Create virtual environment
+      run: python -m venv venv
+          
+    - name: Activate virtual environment
+      run: source venv/bin/activate
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install -r requirements.txt
         pip install coverage
 
     - name: Run tests with coverage
@@ -30,4 +37,7 @@ jobs:
 
     - name: Generate coverage report
       run: coverage report -m
+
+    - name: Deactivate virtual environment
+      run: deactivate
 
