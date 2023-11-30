@@ -30,28 +30,28 @@
           </nav>
         </header>
         <h1>
-            Greenhouse Setting
+            Greenhouse Settings
         </h1>
-<<<<<<< Updated upstream
-=======
+        <div class="hstack justify-content-center gap-3">
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Celsius/Fahrenheit</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="tempUnit" {% if not isCelsius %} checked {% endif %}>
+            <label class="form-check-label" for="tempUnit">Fahrenheit</label>
           </div>
->>>>>>> Stashed changes
+          <button class="btn btn-danger" onclick="resetAlert()">Reset Alert</button>
+        </div>
         <form class="greenhouse-form">
         <div class="greenhouse" id="greenhouse1">
             <h2>
                 Greenhouse 1
             </h2>
-            <h3>Tempature</h3>
+            <h3>Temperature</h3>
             <div id="greenhouse1temp">
-              <label for="temp1Min" class="col-form-label"> Minimum Tempature</label>
+              <label for="temp1Min" class="col-form-label"> Minimum Temperature</label>
               <input class="min" type="number" value="{{ existing_data['1']['tempMin'] }}" id="temp1Min"/>
-              <label for="temp1Max" class="col-form-label"> Maximum Tempature</label>
+              <label for="temp1Max" class="col-form-label"> Maximum Temperature</label>
               <input class="max" type="number" value="{{ existing_data['1']['tempMax'] }}" id="temp1Max"/>
             </div>
-            <h3>Humitity</h3>
+            <h3>Humidity</h3>
             <div id="greenhouse1hum">
               <label for="hum1Min" class="col-form-label">Minimum Humidity</label>
               <input class="min" type="number"value="{{ existing_data['1']['humidityMin'] }}" id="hum1Min"/>
@@ -63,14 +63,14 @@
             <h2>
                 Greenhouse 2
             </h2>
-            <h3>Tempature</h3>
+            <h3>Temperature</h3>
             <div id="greenhouse2temp">
-              <label for="temp2Min" class="col-form-label"> Minimum Tempature</label>
+              <label for="temp2Min" class="col-form-label"> Minimum Temperature</label>
               <input class="min" type="number" value="{{ existing_data['2']['tempMin'] }}" id="temp2Min"/>
-              <label for="temp2Max" class="col-form-label"> Maximum Tempature</label>
+              <label for="temp2Max" class="col-form-label"> Maximum Temperature</label>
               <input class="max" type="number" value="{{ existing_data['2']['tempMax'] }}" id="temp2Max"/>
             </div>
-            <h3>Humitity</h3>
+            <h3>Humidity</h3>
             <div id="greenhouse2hum">
               <label for="hum2Min" class="col-form-label">Minimum Humidity</label>
               <input class="min" type="number" value="{{ existing_data['2']['humidityMin'] }}" id="hum2Min"/>
@@ -82,14 +82,14 @@
             <h2>
                 Greenhouse 3
             </h2>
-            <h3>Tempature</h3>
+            <h3>Temperature</h3>
             <div id="greenhouse3temp">
-              <label for="temp3Min" class="col-form-label"> Minimum Tempature</label>
+              <label for="temp3Min" class="col-form-label"> Minimum Temperature</label>
               <input class="min" type="number"  value="{{ existing_data['3']['tempMin'] }}" id="temp3Min"/>
-              <label for="temp3Max" class="col-form-label"> Maximum Tempature</label>
+              <label for="temp3Max" class="col-form-label"> Maximum Temperature</label>
               <input class="max" type="number"  value="{{ existing_data['3']['tempMax'] }}" id="temp3Max"/>
             </div>
-            <h3>Humitity</h3>
+            <h3>Humidity</h3>
             <div id="greenhouse3hum">
               <label for="hum3Min" class="col-form-label">Minimum Humidity</label>
               <input class="min" type="number"  value="{{ existing_data['3']['humidityMin'] }}" id="hum3Min"/>
@@ -101,14 +101,14 @@
             <h2>
                 Greenhouse 4
             </h2>
-            <h3>Tempature</h3>
+            <h3>Temperature</h3>
             <div id="greenhouse4temp">
-              <label for="temp4Min" class="col-form-label"> Minimum Tempature</label>
+              <label for="temp4Min" class="col-form-label"> Minimum Temperature</label>
               <input class="min" type="number"  value="{{ existing_data['4']['tempMin'] }}" id="temp4Min"/>
-              <label for="temp4Max" class="col-form-label"> Maximum Tempature</label>
+              <label for="temp4Max" class="col-form-label"> Maximum Temperature</label>
               <input class="max" type="number"  value="{{ existing_data['4']['tempMax'] }}" id="temp4Max"/>
             </div>
-            <h3>Humitity</h3>
+            <h3>Humidity</h3>
             <div id="greenhouse4hum">
               <label for="hum4Min" class="col-form-label">Minimum Humidity</label>
               <input class="min" type="number"  value="{{ existing_data['4']['humidityMin'] }}"id="hum4Min"/>
@@ -120,11 +120,11 @@
             <h2>
                 Greenhouse 5
             </h2>
-            <h3>Tempature</h3>
+            <h3>Temperature</h3>
             <div id="greenhouse5temp">
-              <label for="temp5Min" class="col-form-label"> Minimum Tempature</label>
+              <label for="temp5Min" class="col-form-label"> Minimum Temperature</label>
               <input class="min" type="number"  value="{{ existing_data['5']['tempMin'] }}" id="temp5Min"/>
-              <label for="temp5Max" class="col-form-label"> Maximum Tempature</label>
+              <label for="temp5Max" class="col-form-label"> Maximum Temperature</label>
               <input class="max" type="number"  value="{{ existing_data['5']['tempMax'] }}" id="temp5Max"/>
             </div>
             <h3>Humidity</h3>
@@ -139,14 +139,14 @@
             <h2>
                 Greenhouse 6
             </h2>
-            <h3>Tempature</h3>
+            <h3>Temperature</h3>
             <div id="greenhouse6temp">
-              <label for="temp6Min" class="col-form-label"> Minimum Tempature</label>
-              <input class="min" type="number" value = "{{existing_data['6']['tempMin'] }}" id="temp6min"/>
-              <label for="temp6Max" class="col-form-label"> Maximum Tempature</label>
-              <input class="max" type="number" value = "{{existing_data['6']['tempMax'] }}" id="temp6max"/>
+              <label for="temp6Min" class="col-form-label"> Minimum Temperature</label>
+              <input class="min" type="number" value = "{{existing_data['6']['tempMin'] }}" id="temp6Min"/>
+              <label for="temp6Max" class="col-form-label"> Maximum Temperature</label>
+              <input class="max" type="number" value = "{{existing_data['6']['tempMax'] }}" id="temp6Max"/>
             </div>
-            <h3>Humitity</h3>
+            <h3>Humidity</h3>
             <div id="greenhouse6hum">
               <label for="hum5Min" class="col-form-label">Minimum Humidity</label>
               <input class="min" type="number" value="{{ existing_data['6']['humidityMin'] }}" id="hum6Min"/>
@@ -162,6 +162,30 @@
     <!-- <pre id="jsonDisplay"></pre>  Element to display the JSON data -->
 
     <script>
+      const socketio = io()
+
+      // listens for a change in the temp unit toggle and relays info to app.py
+      document.getElementById('tempUnit').addEventListener('change', function () {
+        setTimeout(() => {
+          if (this.checked) {
+            alert('Temperature unit changed to Fahrenheit.')
+            location.reload()
+          }
+          else {
+            alert("Temperature unit changed to Celsius.")
+            location.reload()
+          }
+        }, 500)
+        
+        socketio.emit("tempUnitChange", {isCelsius: !this.checked})
+      })
+
+      // reset the alert, the admin can get alerts again
+      function resetAlert() {
+        alert('Alert has been reset. A notification will be sent if a condition is out of bounds.')
+        socketio.emit("resetAlert")
+      }
+
       function submitForm(event) {
           event.preventDefault(); // Prevents the default form submission behavior
 
@@ -191,12 +215,24 @@
               return; // Stop processing
             }
             const greenhouseNumber = i + 1;
-            greenhouseData[greenhouseNumber] = {
-                tempMax: tempMax,
-                tempMin: tempMin,
+            is_fahrenheit =  document.getElementById('tempUnit').checked
+
+            // if we are entering temps for F save as C in db
+            if (is_fahrenheit){
+              greenhouseData[greenhouseNumber] = {
+                tempMax: Math.floor((tempMax - 32) * 5/9),
+                tempMin: Math.floor((tempMin - 32) * 5/9),
                 humidityMax: humidityMax,
                 humidityMin: humidityMin
-            };
+              };
+            } else {
+              greenhouseData[greenhouseNumber] = {
+                  tempMax: tempMax,
+                  tempMin: tempMin,
+                  humidityMax: humidityMax,
+                  humidityMin: humidityMin
+              };
+            }
           }
           const jsonData = JSON.stringify(greenhouseData, null, 2);
 
@@ -225,28 +261,6 @@
             console.error('Error: ', error);
           }) 
       }
-      function sendSignal() {
-        const isChecked = document.getElementById('flexSwitchCheckDefault').checked;
-
-        // Send an HTTP request to your Python backend
-        fetch('/toggle_endpoint', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        body: JSON.stringify({ switchStatus: isChecked }),
-        })
-      .then(response => {
-          if (response.ok) {
-              console.log('Signal sent successfully');
-          } else {
-              console.log('Error sending signal');
-        }
-      })
-      .catch(error => {
-          console.error('Error:', error);
-      });
-    }
   </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     </body>

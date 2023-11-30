@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 import serial, json, time, random
 import db
+import requests
 
 # init our Flask app and SocketIO
 app = Flask(__name__)
@@ -9,10 +10,17 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 
 is_running = False
 simulating = False
+has_alerted = False
+alert_interval = 10 # can alert at this interval, minutes
 
 port = "/dev/tty.usbmodem2101"
 
+def celsius_to_fahrenheit(temp):
+    return (temp * 9 / 5) + 32
+
 def check_bounds(gh):
+    global has_alerted
+
     gh = json.loads(gh)
     all_configs = json.loads(db.select_current_configs())
     gh_config = all_configs[str(gh["id"])]
@@ -23,31 +31,44 @@ def check_bounds(gh):
 
         if bound == "Max":
             if gh[variable] > gh_config[key]:
-                # alert admin here
-                print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
+                if db.get_alert_value()[0] or db.determine_minute_delta(db.get_alert_value()[1]) >= alert_interval:
+                    print('\nAlerting admin. No more alerts will be sent.\n')
+                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
+                    db.set_alert_value(False)
+                    print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
             if gh[variable] < gh_config[key]:
-                # alert admin here
-                print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
+                if db.get_alert_value()[0] or db.determine_minute_delta(db.get_alert_value()[1]) >= alert_interval:
+                    print('\nAlerting admin. No more alerts will be sent.\n')
+                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
+                    db.set_alert_value(False)
+                    print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
 
 # helper function that reads the basestations serial port 
 def read_serial():
     #define the serial port and baud rate
 
     while True:
-        # reading constantly creates inconsistencies. This seems fairly robust
-        # might run into issues with messages piling up? 
-        # try to grab the line and emit it
-
         serial_port = serial.Serial(port, baudrate=9600)
         serial_port.flush()
 
         try:
+            # try to read in the serial message
             line = serial_port.readline().decode().strip()
             serial_port.flush()
-            print(line)
+            # print(line)
+
+            # do light vaildation on if we should try to parse it
             if len(line) != 0 and line[0] == "{":
-                check_bounds(line)                    
+
+                check_bounds(line)
+
+                # convert to fahrenheit if user wants
+                if not db.get_temp_unit():
+                    data = json.loads(line)
+                    data['temp'] = celsius_to_fahrenheit(data['temp'])
+                    line = json.dumps(data)
+
                 socketio.emit("serial", line)
         except:
             print("failed to read line")
@@ -77,9 +98,15 @@ def simulate_info():
                 "soilT": soilT,
                 "soilM": soilM,
                 "lightS": lightS
-            })
-
+            }) 
             check_bounds(data)
+
+            # convert to fahrenheit if user wants
+            if not db.get_temp_unit():
+                temp_dict = json.loads(data)
+                temp_dict['temp'] = celsius_to_fahrenheit(temp_dict['temp'])
+                data = json.dumps(temp_dict)
+
             socketio.emit("serial", data)
 
         time.sleep(2)
@@ -96,32 +123,26 @@ def available_serial_connection(port):
 # root
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', isCelsius=db.get_temp_unit())
 
 @app.route('/chart')
 def chart():
     id = request.args.get('id')
     variable = request.args.get('variable')
 
-    return render_template('chart.html', id=id, variable=variable)
+    return render_template('chart.html', id=id, variable=variable, isCelsius=db.get_temp_unit())
 
 @app.route('/settings')
 def settings():
     existing_configs = db.select_current_configs()
     existing_data = json.loads(existing_configs)
-    print ("from settings")
-    print(existing_data)
-    return render_template('settings.html', existing_data=existing_data)#possible sending of the mins and maxs later
-    #configs = json.loads(db.select_current_configs())
+    return render_template('settings.html', existing_data=existing_data, isCelsius=db.get_temp_unit())
     
 @app.route('/submit_form', methods = ['POST'])
 def submit_form():
     if request.method == 'POST':
         data = request.get_json()
-        print("from update submit")
-        print(data)
         db.update_existing_configs(data)
-    return
 
 @app.route('/toggle_endpoint', methods=['POST'])
 def handle_toggle():
@@ -158,7 +179,7 @@ def connect():
             is_running = True
             print('\nInitial serial reading started.\n')
         else:
-            print('\Already reading from serial, will continue to do so.\n')
+            print('\nAlready reading from serial, will continue to do so.\n')
     else:
         if not simulating:
             # pretend to receive json info
