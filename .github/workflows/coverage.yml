@@ -38,6 +38,3 @@ jobs:
     - name: Generate coverage report
       run: coverage report -m
 
-    - name: Deactivate virtual environment
-      run: deactivate
-
