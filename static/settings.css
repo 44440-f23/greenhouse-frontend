@@ -43,7 +43,6 @@ h3{
   background-color: #e0f7e0; /* Light green background color */
   color: #333; /* Dark text color for legibility */
   transition: transform 0.3s ease-in-out, background-color 0.3s ease;
-
 }
 
 .greenhouse:hover {
