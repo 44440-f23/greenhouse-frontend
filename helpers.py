@@ -1,14 +1,13 @@
 import serial, json, time, random
+from serial import SerialException
 
 alert_interval = 10 # can alert at this interval, minutes
-port = "/dev/tty.usbmodem2101"
+PORT = "/dev/tty.usbmodem2101"
 
 def celsius_to_fahrenheit(temp):
     return (temp * 9 / 5) + 32
 
 def check_bounds(gh, database):
-    global has_alerted
-
     gh = json.loads(gh)
     all_configs = json.loads(database.select_current_configs())
     gh_config = all_configs[str(gh["id"])]
@@ -41,7 +40,7 @@ def read_serial(socket, database):
     #define the serial port and baud rate
 
     while True:
-        serial_port = serial.Serial(port, baudrate=9600)
+        serial_port = serial.Serial(PORT, baudrate=9600)
         serial_port.flush()
 
         try:
@@ -62,15 +61,15 @@ def read_serial(socket, database):
                     line = json.dumps(data)
 
                 socket.emit("serial", line)
-        except:
-            print("failed to read line")
+        except SerialException as e:
+            print(f"Reading Line threw the exception: {e}")
 
 # randomly generate info from random greenhouses
 def simulate_info(socket, database):
     while True:
         gh_ids = list(set([random.randint(1,6) for _ in range(random.randint(1,6))]))
 
-        for id in gh_ids:
+        for gh_id in gh_ids:
             temp = random.randint(18, 23)
             humidity = random.randint(50, 80)   
             soilT = random.randint(20, 24)    
@@ -78,7 +77,7 @@ def simulate_info(socket, database):
             lightS = random.randint(1, 6000) 
 
             data = json.dumps({
-                "id": id,
+                "id": gh_id,
                 "temp": temp,
                 "humidity": humidity,
                 "soilT": soilT,
