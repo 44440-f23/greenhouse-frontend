@@ -19,10 +19,7 @@ class test_helper_functions(unittest.TestCase):
             self.db.set_temp_unit(True)
             self.db.update_existing_configs(test_config)
             self.db.set_alert_value(True)
-            
-
-
-        
+     
     def tearDown(self):
         with self.app.app_context():
             gh_configs.query.delete()
