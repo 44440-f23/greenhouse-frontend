@@ -1,0 +1,3 @@
+[DEFAULT]
+# Ignore specific errors
+ignore = C0111, C0103, C0114, C0115, C0116, C0301
