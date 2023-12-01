@@ -1,3 +1,10 @@
+
+body {
+    background-color: #f4f4f4; /* Light gray background */
+    color: #333; /* Dark text color for better readability */
+    font-family: 'Arial', sans-serif
+}
+
 .greenhouse {
     width: 260px;
     height: 260px;
@@ -5,6 +12,11 @@
     background-size: cover; 
     background-repeat: no-repeat;
     position: relative;
+    transition: transform 0.3s ease-in-out;
+}
+
+.greenhouse:hover {
+  transform: scale(1.1); /* Slightly scale up on hover */
 }
 
 .greenhouse div {
