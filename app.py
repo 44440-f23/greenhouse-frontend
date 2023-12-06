@@ -16,7 +16,7 @@ alert_interval = 10 # can alert at this interval, minutes
 port = "/dev/tty.usbmodem2101"
 
 def celsius_to_fahrenheit(temp):
-    return (temp * 9 / 5) + 32
+    return round((temp * 9/5) + 32, 2)
 
 def check_bounds(gh):
     global has_alerted
@@ -28,21 +28,28 @@ def check_bounds(gh):
     for key in gh_config:
         bound = key[len(key)-3:]
         variable = key[:len(key)-3]
+        isFahrenheit = not db.get_temp_unit()
+        
+        # if the variable we are checking is temp, make sure we get the units matched up for comparing
+        if variable == "temp":
+            checkAgainst = celsius_to_fahrenheit(gh[variable]) if isFahrenheit else gh[variable]
+        else: # if its any other variable we dont do anything
+            checkAgainst = gh[variable]
 
         if bound == "Max":
-            if gh[variable] > gh_config[key]:
+            if checkAgainst > gh_config[key]:
                 if db.get_alert_value()[0] or db.determine_minute_delta(db.get_alert_value()[1]) >= alert_interval:
                     print('\nAlerting admin. No more alerts will be sent.\n')
-                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
+                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":checkAgainst})
                     db.set_alert_value(False)
-                    print(variable, "of value", gh[variable], "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
+                    print(variable, "of value", checkAgainst, "from gh", gh["id"], "exceeds", bound, "of", gh_config[key])
         elif bound == "Min":
-            if gh[variable] < gh_config[key]:
+            if checkAgainst < gh_config[key]:
                 if db.get_alert_value()[0] or db.determine_minute_delta(db.get_alert_value()[1]) >= alert_interval:
                     print('\nAlerting admin. No more alerts will be sent.\n')
-                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":gh[variable]})
+                    # requests.post("https://maker.ifttt.com/trigger/environment_trigger/with/key/oC8QBG9qOHawiZjEEnt5TN6IanwkOlexvtI1EEvtq7R", json={"value1":gh["id"], "value2":variable, "value3":checkAgainst})
                     db.set_alert_value(False)
-                    print(variable, "of value", gh[variable], "from gh", gh["id"], "is below", bound, "of", gh_config[key])
+                    print(variable, "of value", checkAgainst, "from gh", gh["id"], "is below", bound, "of", gh_config[key])
 
 # helper function that reads the basestations serial port 
 def read_serial():
